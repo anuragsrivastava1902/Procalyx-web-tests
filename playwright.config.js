@@ -42,7 +42,7 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], storageState: 'storage/auth.json' },
     }
   ],
-  globalSetup: './setup/login.setup.js',
+  // globalSetup: './setup/login.setup.js',
 
 });
 
