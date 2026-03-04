@@ -1,0 +1,20 @@
+{
+  "name": "procalyx-automation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "papaparse": "^5.5.3"
+  }
+}
