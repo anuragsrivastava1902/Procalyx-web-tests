@@ -1,4 +1,4 @@
-class DashboardPage {
+export default class ApAdminDashboardPage {
 
     constructor(page) {
         this.page = page;
@@ -14,7 +14,6 @@ class DashboardPage {
         this.apMasterNavigationLink = page.getByRole('button', { name: 'Affordplan Master' });
         this.mfgMastersOption = page.locator('span').filter({ hasText: 'Manufacturer Masters' }).first()
         this.apItemMasterNavLink = page.locator('span').filter({ hasText: 'Item Master' }).first();
-        this.addUserButton = page.getByRole('button', { name: /add user/i });
         this.addNewButton = page.getByRole('button', { name: /add new/i });
 
 
@@ -78,122 +77,32 @@ class DashboardPage {
 
     /** -------------------- ACTION METHODS -------------------- **/
 
-    async clickUserManagement() {
+    async goToUserManagement() {
         await this.linkUserManagement.click();
     }
 
-     async clickMfgOnboardingLink() {
+     async goToMfgOnboarding() {
         await this.mfgOnboardingNavigationLink.click();
     }
 
-     async clickHospitalOnboardingLink() {
+     async goToHospitalOnboarding() {
         await this.hospitalOnboardingNavigationLink.click();
         await this.hospitalOnboardingButton.click();
     }
 
 
-    async clickApItemMasterNavLink() {
+    async goToApItemMaster() {
         await this.apMasterNavigationLink.click();
         await this.apItemMasterNavLink.click();
     }
 
-    async clickAddNewItemButton(){
-        await this.addNewButton.click();
-    }
 
-    async clickAddNewUserButton(){
-        await this.addUserButton.click();
-    }
-
-
-    async openManufacturerMasters() {
+    async goToManufacturerMasters() {
         await this.mfgMastersOption.waitFor({ state: "visible" });
         await this.mfgMastersOption.click();
     }
 
-    async clickAddManufacturer() {
-        await this.addNewButton.click();
-    }
-
-    async fillKYC(mfg) {
-        await this.panInput.fill(mfg.pan);
-        await this.gstInput.fill(mfg.gst);
-        await this.revenueInput.fill(mfg.revenue);
-        await this.drugExpiryInput.fill(mfg.drugLicenseExpiry);
-        await this.drugNumberInput.fill(mfg.drugLicenseNumber);
-        await this.fssaiInput.fill(mfg.fssaiLicenseNumber);
-    }
-
-    async fillBasicInfo(mfg) {
-        await this.mfgNameInput.fill(mfg.mfgName);
-        await this.parentDropdown.click();
-        await this.parentOptionNone.click();
-        await this.mfgLegalNameInput.fill(mfg.mfgLegalName);
-
-        // Category
-        await this.categoryDropdown.click();
-        await this.page.getByRole("option", { name: mfg.category }).click();
-
-        // Therapy
-        await this.therapyDropdown.click();
-        await this.page.getByRole("option", { name: mfg.therapy }).click();
-
-        // Address
-        await this.addressTextarea.fill(mfg.registeredAddress);
-        await this.urlInput.fill(mfg.url);
-    }
-
-    async fillLocationDetails(mfg) {
-        await this.countryDropdown.click();
-        await this.page.getByRole("option", { name: mfg.country }).click();
-
-        await this.stateDropdown.click();
-        await this.page.getByRole("option", { name: mfg.state }).click();
-
-        await this.cityDropdown.click();
-        await this.page.getByRole("option", { name: mfg.city }).click();
-
-        await this.pincodeInput.fill(mfg.pincode);
-    }
-
-    async selectKAMIfAvailable() {
-        try {
-            await this.kamDropdown.click({ timeout: 2000 });
-            await this.kamOptionPedri.click({ timeout: 2000 });
-        } catch {
-            console.log("KAM not assigned — skipping");
-        }
-    }
-
-    async fillSPOCInfo(mfg) {
-        await this.spocNameInput.fill(mfg.spocName);
-        await this.spocDesignationInput.fill(mfg.spocDesignation);
-        await this.spocEmailInput.fill(mfg.spocEmail);
-        await this.spocPhoneInput.fill(mfg.spocPhone);
-
-        await this.spocDepartmentDropdown.click();
-        await this.page.getByRole("option", { name: mfg.spocDepartment }).click();
-    }
-
-    async fillContractDetails(mfg) {
-        await this.contractStatusDropdown.click();
-        await this.page.getByRole("option", { name: mfg.contractStatus, exact: true }).first().click();
-
-        await this.operationalStatusDropdown.click();
-        await this.page.getByRole("option", { name: mfg.operationalStatus, exact: true }).first().click();
-    }
-
-    async fillCommercials(mfg) {
-        await this.apFeePercentInput.fill(mfg.apFeePercent);
-        await this.apFeeRemarksTextarea.fill(mfg.apFeeRemarks);
-    }
-
-    async fillBankDetails(mfg) {
-        await this.bankNameInput.fill(mfg.bankName);
-        await this.accountNumberInput.fill(mfg.accountNumber);
-        await this.ifscInput.fill(mfg.ifscCode);
-        await this.ifscInput.press("Tab");
-    }
+  
 
     async save() {
         await this.saveBtn.click();
@@ -201,4 +110,3 @@ class DashboardPage {
     }
 }
 
-export default DashboardPage;

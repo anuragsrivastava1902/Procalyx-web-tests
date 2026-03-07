@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import DashboardPage from '../pages/dashboardPage';
-import HospitalOnboardingForm from '../pages/hospitalOnboardingForm';
+import DashboardPage from '../../pages/dashboard/ap-admin-dashboard.page.js';
+import HospitalOnboardingForm from '../../pages/onboarding/hospital-onboarding-form.page.js';
 
-import { readCSV } from '../utils/readCSV';
+import { readCSV } from '../../utils/readCSV';
 
 let hospitals = [];
 try {
@@ -18,7 +18,7 @@ test.describe('hospital onboarding tests', () => {
         test('test hospital onboarding by mandatory fields', async ({ page }) => {
             await page.goto('/dashboard');
             const dashboardPage = new DashboardPage(page);
-            dashboardPage.clickHospitalOnboardingLink();
+            dashboardPage.goToHospitalOnboarding();
             const hospitalOnboardingForm = new HospitalOnboardingForm(page);
             hospitalOnboardingForm.clickAddNewHospitalButton();
         })

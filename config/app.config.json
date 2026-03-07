@@ -1,5 +1,5 @@
 {
-    "baseURL": "https://procalyx.org/login",
-    "email": "admin4@yopmail.com",
+    "baseURL": "https://qa.procalyx.net",
+    "email": "spoc@neocare.com",
     "isKamUser": false
 }
