@@ -1,4 +1,4 @@
-class ApItemMasterForm {
+export default class ApItemMasterFormPage {
     constructor(page) {
         this.page = page;
         this.itemNameInputField = page.getByRole('textbox', { name: /Item Name/i });
@@ -136,5 +136,3 @@ class ApItemMasterForm {
         
     }
 }
-
-export default ApItemMasterForm;

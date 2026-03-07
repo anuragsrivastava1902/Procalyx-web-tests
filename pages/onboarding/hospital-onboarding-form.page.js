@@ -1,4 +1,4 @@
-class HospitalOnboardingForm {
+export class HospitalOnboardingFormPage {
     constructor(page) {
         this.page = page;
         this.addNewHospital = page.getByRole('button', { name: 'Add New Hospital' });
@@ -13,7 +13,7 @@ class HospitalOnboardingForm {
         this.stateDropdown = page.locator('form').getByRole('combobox').nth(5)
         this.cityDropdown = page.locator('form').getByRole('combobox').nth(6);
         this.PincodeInputField = page.locator('[name="info.pincode"]');
-        
+
 
     }
     async clickAddNewHospitalButton() {
@@ -21,13 +21,5 @@ class HospitalOnboardingForm {
     }
 
     async fillKybFields(mfg) {
-
-
     }
-
-
-
-
 }
-
-export default HospitalOnboardingForm;

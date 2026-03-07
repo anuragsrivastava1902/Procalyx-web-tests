@@ -1,4 +1,4 @@
-class MfgOnboardingForm {
+export default class ManufacturerOnboardingFormPage {
     constructor(page) {
         this.page = page;
         this.PanInputField = page.locator('input[name="kyb.pan"]');
@@ -135,5 +135,3 @@ class MfgOnboardingForm {
     }
 }
 
-
-export default MfgOnboardingForm;

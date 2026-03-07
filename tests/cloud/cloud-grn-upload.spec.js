@@ -7,7 +7,7 @@ test('check grn upload', async () => {
     const page = await context.newPage();
 
 
-    const url = 'https://cloud.procalyx.org/login';
+    const url = 'https://cloud-qa.procalyx.net/login';
     const email = 'anurag.srivastava@affordplan.com';
     const password = 'affordplan@1902';
     const cloud_id = "HOS-597B9BE1"

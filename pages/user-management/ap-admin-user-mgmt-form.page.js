@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-class UserManagementForm {
+export default class ApAdminUserManagementFormPage {
     constructor(page) {
         this.page = page;
 
@@ -109,7 +109,4 @@ class UserManagementForm {
     }
 
 
-
 }
-
-export default UserManagementForm;
