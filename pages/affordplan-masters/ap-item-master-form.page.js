@@ -32,6 +32,7 @@ export default class ApItemMasterFormPage {
         await this.doseSizeInputField.fill(apItem.doseOrSize);
 
         //-------------------------------------------------------- select category from the dropdown
+
         await this.categoryDropdown.fill(apItem.category);
         const categoryOption = this.page.getByRole('option', {
             name: new RegExp(apItem.category, 'i')
@@ -40,13 +41,16 @@ export default class ApItemMasterFormPage {
         await categoryOption.click();
 
         //----------------------------------------------------------select dosageType from the dropdown
-        await this.dosageTypeDropdown.fill(apItem.dosageType);
-        const dosageTypeOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.dosageType, 'i')
-        }).nth(0);
-        await dosageTypeOption.waitFor({ state: 'visible' })
-        await dosageTypeOption.click();
-        await this.page.keyboard.press('Tab');
+        if (apItem.category != 'Consumables') {
+            await this.dosageTypeDropdown.fill(apItem.dosageType);
+            const dosageTypeOption = this.page.getByRole('option', {
+                name: new RegExp(apItem.dosageType, 'i')
+            }).nth(0);
+            await dosageTypeOption.waitFor({ state: 'visible' })
+            await dosageTypeOption.click();
+            // await this.page.keyboard.press('Tab');
+        }
+
 
         //----------------------------------------------------- fill gst percent in the input field
         await this.gstPercentInputField.click();
@@ -129,10 +133,12 @@ export default class ApItemMasterFormPage {
 
         await this.packingSizeInputField.fill(apItem.packingSize);
         await this.remarksInputField.fill(apItem.remarks)
-        //await this.page.pause();
+        // await this.page.pause();
 
         //-------------------------------------------------------- click SAVE button
-        await this.saveButton.click();
-        
+        await Promise.all([this.page.waitForResponse(res =>
+            res.status() == 201
+        ), this.saveButton.click()
+        ])
     }
 }
