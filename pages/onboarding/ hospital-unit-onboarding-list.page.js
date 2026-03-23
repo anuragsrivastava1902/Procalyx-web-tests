@@ -1,3 +1,3 @@
-export class HospitalUnitOnboardingListPage {
+export default class HospitalUnitOnboardingListPage {
     
 }

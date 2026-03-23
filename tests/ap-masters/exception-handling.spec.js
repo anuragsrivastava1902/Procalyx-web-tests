@@ -1,0 +1,20 @@
+import { test, expect } from "@playwright/test";
+import ApAdminDashboardPage from "../../pages/dashboard/ap-admin-dashboard.page";
+import ExceptionHandlingFormPage from "../../pages/affordplan-masters/exception-handling-form.page";
+import ExceptionHandlingListPage from "../../pages/affordplan-masters/exception-handling-list.page";
+
+test.describe('testing exception handling', () => {
+    test.use({ storageState: 'storage/auth.json' });
+    test(`test edit exception page is opened?}`, async ({ page }) => {
+        const apAdminDashboardPage = new ApAdminDashboardPage(page);
+        const exceptionHandlingListPage = new ExceptionHandlingListPage(page);
+        const exceptionHandlingFormPage = new ExceptionHandlingFormPage(page);
+        await page.goto("https://qa.procalyx.net/dashboard");
+        await apAdminDashboardPage.goToExceptionHandling();
+        await exceptionHandlingListPage.waitForPageToLoadComplete();
+        await page.pause()
+        await exceptionHandlingListPage.editException();
+    })
+})
+
+

@@ -16,16 +16,22 @@ try {
 test.describe('auth tests', () => {
     test.use({ storageState: 'storage/auth.json' });
     for (const mfg of mfgs) {
-        test('test mfg onboarding by mandatory fields', async ({ page }) => {
+        const uniqueSuffix = Date.now().toString().slice(-1)
+        test(`test mfg onboarding by mandatory fields for ${mfg.mfgName}-${uniqueSuffix}`, async ({ page }) => {
             await page.goto("https://qa.procalyx.net/dashboard");
             const apAdminDashboardPage = new ApAdminDashboardPage(page);
-            await apAdminDashboardPage.goToMfgOnboarding();
             const manufacturerOnboardingListPage = new ManufacturerOnboardingListPage(page)
-            await manufacturerOnboardingListPage.startManufacturerCreation();
-            await expect(page.getByText(/MFG KYB/)).toBeVisible();
             const manufacturerOnboardingFormPage = new ManufacturerOnboardingFormPage(page);
+            await apAdminDashboardPage.goToMfgOnboarding();
+            await manufacturerOnboardingListPage.waitForPageToLoadComplete();
+            await manufacturerOnboardingListPage.viewUnassignedManufacturers();
+            //await manufacturerOnboardingListPage.startManufacturerCreation();
+            await manufacturerOnboardingListPage.waitForPageToLoadComplete();
+            await manufacturerOnboardingListPage.editManufacturer();
+           
+            await expect(page.getByText("Edit Manufacturer")).toBeVisible();
             await manufacturerOnboardingFormPage.fillKybFields(mfg);
-            await manufacturerOnboardingFormPage.selectMfg(mfg);
+            //await manufacturerOnboardingFormPage.selectMfg(mfg);
             await manufacturerOnboardingFormPage.fillLegalNameAndAddress(mfg);
             await manufacturerOnboardingFormPage.selectCategoryAndTherapy(mfg);
             await manufacturerOnboardingFormPage.selectGeography(mfg);
@@ -33,7 +39,8 @@ test.describe('auth tests', () => {
             await manufacturerOnboardingFormPage.fillSpocDetails(mfg);
             await manufacturerOnboardingFormPage.selectContractStatus(mfg);
             await manufacturerOnboardingFormPage.clickSaveButton();
-            await page.waitForTimeout(7000);
+            await manufacturerOnboardingFormPage.checkMessage("approv");
+            //await page.pause()
             //await expect(page).toHaveURL(/dashboard/);
         })
     }
