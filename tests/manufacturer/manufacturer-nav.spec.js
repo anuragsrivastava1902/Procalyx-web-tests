@@ -9,13 +9,9 @@ test.describe('testing manufacturer navigation', () => {
         const manufacturerDashboardPage = new ManufacturerDashboardPage(page);
         await page.goto('/manufacturer')
         await manufacturerDashboardPage.goToDashboard();
-        await page.waitForTimeout(2000);
         await manufacturerDashboardPage.goToManagementConsole();
-        await page.waitForTimeout(2000);
         await manufacturerDashboardPage.goToUserManagement();
-        await page.waitForTimeout(2000);
         await manufacturerDashboardPage.goToQuoteRepository();
-        await page.waitForTimeout(2000);
         await manufacturerDashboardPage.goToQuoteScreen();
         await page.pause();
      })

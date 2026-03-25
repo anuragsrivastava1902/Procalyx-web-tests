@@ -22,7 +22,6 @@ export default async function globalSetup() {
   // if (isKamUser) {
   //   await loginPage.selectDropdown();
   //   //await loginPage.clickContinueButton();
-  //   await page.waitForTimeout(1000);
   // }
   await page.screenshot({ path: 'debug.png' });
   const state = await context.storageState();   // gets the state as JSON object
