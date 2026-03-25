@@ -57,7 +57,6 @@ export default class ManufacturerOnboardingFormPage {
         await this.mfgNameDropdown.waitFor({ state: 'visible' });
         await this.mfgNameDropdown.fill(mfg.mfgName);
 
-        await this.page.waitForTimeout(100);
         const option = this.page.getByRole('option', {
             name: new RegExp(mfg.mfgName, 'i')
         }).nth(0);

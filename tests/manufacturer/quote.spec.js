@@ -13,7 +13,6 @@ test.describe('test quoting', () => {
         await manufacturerDashboardPage.goToQuoteScreen();
         // await manufacturerQuotePage.waitForPageToLoadComplete()
         await manufacturerQuotePage.waitForQuotesToLoad();
-        //await page.waitForTimeout(5000)
         await manufacturerQuotePage.findRows();
         await manufacturerQuotePage.publishQuote();
         

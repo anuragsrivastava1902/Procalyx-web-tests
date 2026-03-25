@@ -46,7 +46,6 @@ class LoginPage {
 
         // Click the option by text
         await this.page.getByRole('option', { name: 'My Dashboard' }).click();
-        await this.page.waitForTimeout(3000);
         console.log("exitung drop..............................");
 
 

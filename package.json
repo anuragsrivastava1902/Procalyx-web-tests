@@ -4,7 +4,36 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+
+    "test:auth": "playwright test tests/auth/",
+    "test:onboarding": "playwright test tests/onboarding/",
+    "test:onboarding:manufacturer": "playwright test tests/onboarding/manufacturer-onboarding.spec.js",
+    "test:onboarding:hospital": "playwright test tests/onboarding/hospital-onboarding.spec.js",
+
+    "test:items": "playwright test tests/item-creation/",
+    "test:items:ap": "playwright test tests/item-creation/ap-item-master-creation.spec.js",
+
+    "test:manufacturer": "playwright test tests/manufacturer/",
+    "test:manufacturer:quote": "playwright test tests/manufacturer/quote.spec.js",
+    "test:manufacturer:console": "playwright test tests/manufacturer/management-console.spec.js",
+    "test:manufacturer:nav": "playwright test tests/manufacturer/manufacturer-nav.spec.js",
+
+    "test:users": "playwright test tests/user-management/",
+    "test:users:register": "playwright test tests/user-management/user-registration.spec.js",
+
+    "test:masters": "playwright test tests/ap-masters/",
+    "test:masters:mapping": "playwright test tests/ap-masters/mapping-master.spec.js",
+    "test:masters:exception": "playwright test tests/ap-masters/exception-handling.spec.js",
+
+    "test:cloud": "playwright test tests/cloud/",
+    "test:cloud:grn": "playwright test tests/cloud/cloud-grn-upload.spec.js",
+    "test:cloud:demo": "playwright test tests/cloud/cloud-demo.spec.js",
+
+    "test:smoke": "playwright test tests/auth/ tests/onboarding/ tests/manufacturer/management-console.spec.js",
+    "test:regression": "playwright test"
   },
   "keywords": [],
   "author": "",
