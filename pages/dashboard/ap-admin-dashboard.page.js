@@ -2,12 +2,8 @@ export default class ApAdminDashboardPage {
 
     constructor(page) {
         this.page = page;
-
         /** -------------------- DASHBOARD MENU -------------------- **/
-        this.linkUserManagement = page.locator(
-            "div[id='root'] li:nth-child(2) div:nth-child(1) div:nth-child(2) span:nth-child(1)"
-        );
-
+        this.userManagementBtn = page.getByRole('button', { name: 'User Management' })
         this.manufacturerOnboardingBtn = page.getByRole('button', { name: 'Manufacturer Onboarding' });
         this.hospitalOnboardingToggle = page.getByRole('button', { name: 'Hospital Onboarding' });
         this.hospitalOnboardingBtn = page.getByRole('button', { name: 'Hospital', exact: true });
@@ -27,7 +23,7 @@ export default class ApAdminDashboardPage {
     /** -------------------- ACTION METHODS -------------------- **/
 
     async goToUserManagement() {
-        await this.linkUserManagement.click();
+        await this.userManagementBtn.click();
     }
 
     async goToMfgOnboarding() {

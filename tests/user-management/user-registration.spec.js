@@ -11,30 +11,32 @@ import { readCSV } from '../../utils/readCSV.js';
 let users = [];
 try {
     users = readCSV('test-data/user_details.csv');
-    console.log('Loaded users: ', users);
+    console.log('Loaded users: ', users.length);
 
 } catch (err) {
     console.error('Error loading CSV:', err);
 }
 
 test.describe('user management tests', () => {
-    test.use({ storageState: 'storage/auth.json' });
+    test.use({ storageState: 'storage/auth.ap_superadmin.json' });
     for (const user of users) {
+        if (user?.name?.trim()) {
         test(`check user Registration - ${user.name}`, async ({ page }) => {
-            //await page.pause();
-            await page.goto("https://qa.procalyx.net/dashboard");
-            const apAdminDashboardPage = new ApAdminDashboardPage(page);
-            await apAdminDashboardPage.goToUserManagement();
-            const apAdminUserManagementListPage = new ApAdminUserManagementListPage(page);
-            await expect(page.getByText('Create New User')).toBeVisible();
-            await apAdminUserManagementListPage.startNewUserCreation();
-            const apAdminUserManagementFormPage = new ApAdminUserManagementFormPage(page);
-            await apAdminUserManagementFormPage.enterBasicInfo(user);
-            await apAdminUserManagementFormPage.selectOrganisationDetails(user);
-            await apAdminUserManagementFormPage.selectGeographyDetails(user);
-            await apAdminUserManagementFormPage.selectConditionalDropdowns(user);
-            await apAdminUserManagementFormPage.clickSaveButton();
-            await page.waitForTimeout(5000);
-        })
+                await page.goto("https://qa.procalyx.net/dashboard");
+                const apAdminDashboardPage = new ApAdminDashboardPage(page);
+                const apAdminUserManagementListPage = new ApAdminUserManagementListPage(page);
+                const apAdminUserManagementFormPage = new ApAdminUserManagementFormPage(page);
+
+                await apAdminDashboardPage.goToUserManagement();
+                await expect(apAdminUserManagementListPage.userManagementHeading).toBeVisible();
+                await expect(apAdminUserManagementListPage.addUserBtn).toBeEnabled();
+                await apAdminUserManagementListPage.startNewUserCreation();
+                await apAdminUserManagementFormPage.enterBasicInfo(user);
+                await apAdminUserManagementFormPage.selectOrganisationDetails(user);
+                await apAdminUserManagementFormPage.selectGeographyDetails(user);
+                await apAdminUserManagementFormPage.selectConditionalDropdowns(user);
+                await apAdminUserManagementFormPage.clickSaveButton();
+            })
+        }
     }
 })

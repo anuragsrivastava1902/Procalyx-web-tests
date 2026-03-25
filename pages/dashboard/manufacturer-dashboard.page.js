@@ -10,7 +10,7 @@ export default class ManufacturerDashboardPage {
     }
 
     async goToDashboard(){
-        this.dashboardBtn.click();
+        await this.dashboardBtn.click();
     }
 
     async goToQuotes() {

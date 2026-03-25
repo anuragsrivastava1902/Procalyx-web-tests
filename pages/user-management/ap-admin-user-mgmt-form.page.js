@@ -19,13 +19,10 @@ export default class ApAdminUserManagementFormPage {
         this.citySelect = page.locator('select:has(option:has-text("Select city"))').first();
 
         this.hospitalSelect = page.locator('select:has(option:has-text("Select hospital names"))').first();
-        this.hospitalUnitSelect = page.locator('select:has(option:has-text("Select hospital unit names"))').first();
-
+        this.hospitalUnitSelect = page.locator('span:has-text("Select hospital unit names")').first();
         // this is a temporary fix, i have to ask devs to add data-testid attribute or to correct the 'label' logic
-        this.manufacturerSelect = page.locator('select:has(option:has-text("Select Manufacturer"))').first() //page.locator('div._formGroup_twwef_457', { hasText: 'Manufacturer' }) .locator('select').nth(0); 
-
+        this.manufacturerSelect = page.locator('select:has(option:has-text("Select manufacturer"))').first() //page.locator('div._formGroup_twwef_457', { hasText: 'Manufacturer' }) .locator('select').nth(0); 
         this.assignedHospitalUnitsDropdown = page.locator('span:has-text("Select hospital units")').locator('..');
-
         this.divisionSelect = page.locator('select:has(option:has-text("Select division"))').first();
         this.therapyAreasDropdown = page.locator('span:has-text("Select therapy areas")');
 
@@ -43,8 +40,9 @@ export default class ApAdminUserManagementFormPage {
     }
 
     async selectOrganisationDetails(user) {
-        await expect(this.relationshipSelect).toBeVisible();
+        await expect(this.relationshipSelect).toBeEnabled({ timeout: 10000 });
         await this.relationshipSelect.selectOption(user.relationship);
+        await expect(this.roleSelect).toBeEnabled({ timeout: 10000 })
         await this.roleSelect.selectOption({ label: user.role });
         await this.departmentSelect.selectOption({ label: user.department });
     }
@@ -53,7 +51,6 @@ export default class ApAdminUserManagementFormPage {
         await this.countrySelect.selectOption({ label: user.country });
         await this.stateSelect.selectOption({ label: user.state });
         await this.citySelect.selectOption({ label: user.city });
-        console.log("all geography details filled")
     }
 
 
@@ -64,37 +61,28 @@ export default class ApAdminUserManagementFormPage {
             await this.hospitalSelect.selectOption({ label: user.hospital });
 
             await expect(this.hospitalUnitSelect).toBeVisible({ timeout: 10000 });
-            await this.hospitalUnitSelect.selectOption({ label: user.hospitalUnit });
-            //await this.page.pause();
+            await this.hospitalUnitSelect.click()
+            await this.page.getByText(user.hospitalUnit, { exact: true }).last().click();
         }
 
         // Wait for conditional dropdowns if relationship is Manufacturer
         if (user.relationship === 'manufacturer') {
             console.log("user relationship is mfg................")
+
             await expect(this.manufacturerSelect).toBeVisible({ timeout: 10000 });
-            console.log("---------mfg dropdown is located")
             await this.manufacturerSelect.selectOption({ label: user.manufacturer });
-            console.log("selected mfg dropdown")
 
             await this.assignedHospitalUnitsDropdown.click();
-            // Then select an option dynamically
-            await this.page.getByRole('cell', {name:user.assignedUnits})
-            //await this.page.getByText(user.assignedUnits, { exact: true }).click();
-            console.log("assigned hospital units selected")
-            //await this.page.locator('span', { hasText: user.assignedUnits }).locator('..').click();
-            await this.page.getByText('Hospital Unit', { exact: true }).click(); //this click is for closing the dropdown
-            console.log("assigned units dropdown closed")
+            await this.page.getByText(user.assignedUnits, { exact: true }).last().click();
+            await this.page.getByText('Hospital Unit', { exact: true }).last().click(); //this click is for closing the dropdown
 
-            await expect(this.divisionSelect).toBeVisible({ timeout: 10000 });
+            await this.divisionSelect.waitFor({ state: 'visible' });
+            await this.page.waitForSelector(`select:has(option:has-text("${user.division}"))`);
             await this.divisionSelect.selectOption({ label: user.division });
-            console.log("division selected")
 
             await this.therapyAreasDropdown.click();
-            await this.page.getByRole('cell', { name: user.therapies })
-            //await this.page.getByText(user.therapies, { exact: true }).click();
+            await this.page.getByText(user.therapies).last().click();
             await this.page.getByText('Therapy Area', { exact: true }).click(); //this click is for closing the dropdown
-            console.log("therapies selected")
-            // await this.page.pause();
         }
 
     }
@@ -105,7 +93,9 @@ export default class ApAdminUserManagementFormPage {
             this.saveButton.click()
         ]);
 
-        console.log(' API response:', await response.text());
+        const responseBody = await response.json();
+        console.log(`API response code:`, response.status);
+        expect(responseBody.success, "check if the user is created or not").toBeTruthy();
     }
 
 

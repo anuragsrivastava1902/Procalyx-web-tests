@@ -1,5 +1,58 @@
 {
-    "baseURL": "https://qa.procalyx.net",
-    "email": "ciplauser@cipla.com",
-    "isKamUser": false
+    "baseURL": {
+        "qa": "https://qa.procalyx.net",
+        "stage": "https://stage.procalyx.net",
+        "dev": "https://dev.procalyx.net"
+    },
+    "users": {
+        "ap_superadmin": {
+            "email": "shikha.sehrawat@affordplan.com",
+            "isKamUser": false
+        },
+        "ap_admin": {
+            "email": "admin4@yopmail.com",
+            "isKamUser": false
+        },
+        "ap_hKam": {
+            "email": "hkamap@yopmail.com",
+            "isKamUser": true
+        },
+        "ap_mKam": {
+            "email": "mkamap@yopmail.com",
+            "isKamUser": true
+        },
+        "ap_operator": {
+            "email": "dataoperatorap@yopmail.com",
+            "isKamUser": false
+        },
+        "h_superadmin": {
+            "email": "spoc@demolive.com",
+            "isKamUser": false
+        },
+        "h_cxo": {
+            "email": "cxo4@yopmail.com",
+            "isKamUser": false
+        },
+        "h_operator": {
+            "email": "operator4@demolive.com",
+            "isKamUser": false
+        },
+        "m_superadmin": {
+            "email": "ciplauser@cipla.com",
+            "isKamUser": false
+        },
+        "m_businessHead":{
+            "email":"bhead4cipla@yopmail.com",
+            "isKamUser": false
+        },
+        "m_cxo":{
+            "email":"cxo4cipla@yopmail.com",
+            "isKamUser": false
+        },
+        "m_operator": {
+            "email":"operatorcipla@yopmail.com",
+            "isKamUser":false
+        }
+
+    }
 }

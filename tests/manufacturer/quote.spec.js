@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import ManufacturerDashboardPage from "../../pages/dashboard/manufacturer-dashboard.page";
-import ManufacturerQuotePage from "../../pages/manufacturer/quote-screen";
+import ManufacturerQuotePage from "../../pages/manufacturer/mfg-quote-page";
 
 test.describe('test quoting', () => {
     test.use({ storageState: 'storage/auth.json' });
