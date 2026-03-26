@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import LoginPage from '../../pages/auth/login.page.js';
-import ApAdminDashboardPage from '../../pages/dashboard/ap-admin-dashboard.page.js';
-import ApAdminUserManagementFormPage from '../../pages/user-management/ap-admin-user-mgmt-form.page.js';
-import ApAdminUserManagementListPage from '../../pages/user-management/ap-admin-user-mgmt-list.page.js';
+import LoginPage from '../../pages/shared/auth/login.page.js';
+import ApAdminDashboardPage from '../../pages/affordplan/dashboard/ap-admin-dashboard.page.js';
+import ApAdminUserManagementFormPage from '../../pages/affordplan/user-management/ap-admin-user-mgmt-form.page.js';
+import ApAdminUserManagementListPage from '../../pages/affordplan/user-management/ap-admin-user-mgmt-list.page.js';
 
 
 

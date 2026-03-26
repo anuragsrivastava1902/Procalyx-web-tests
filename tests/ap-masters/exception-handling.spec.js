@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
-import ApAdminDashboardPage from "../../pages/dashboard/ap-admin-dashboard.page";
-import ExceptionHandlingFormPage from "../../pages/affordplan-masters/exception-handling-form.page";
-import ExceptionHandlingListPage from "../../pages/affordplan-masters/exception-handling-list.page";
+import ApAdminDashboardPage from "../../pages/affordplan/dashboard/ap-admin-dashboard.page";
+import ExceptionHandlingFormPage from "../../pages/affordplan/affordplan-masters/exception-handling-form.page";
+import ExceptionHandlingListPage from "../../pages/affordplan/affordplan-masters/exception-handling-list.page";
 
 test.describe('testing exception handling', () => {
     test.use({ storageState: 'storage/auth.json' });

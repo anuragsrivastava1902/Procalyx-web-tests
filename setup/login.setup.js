@@ -1,6 +1,6 @@
 // setup/login.setup.js
 import { chromium } from '@playwright/test';
-import LoginPage from '../pages/auth/login.page';
+import LoginPage from '../pages/shared/auth/login.page';
 import { readConfig } from '../utils/readConfig';
 
 export default async function globalSetup() {

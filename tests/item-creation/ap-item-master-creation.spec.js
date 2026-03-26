@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import ApAdminDashboardPage from '../../pages/dashboard/ap-admin-dashboard.page.js';
-import ApItemMasterFormPage from '../../pages/affordplan-masters/ap-item-master-form.page.js';
-import ApItemMasterListPage from '../../pages/affordplan-masters/ap-item-master-list.page.js';
+import ApAdminDashboardPage from '../../pages/affordplan/dashboard/ap-admin-dashboard.page.js';
+import ApItemMasterFormPage from '../../pages/affordplan/affordplan-masters/ap-item-master-form.page.js';
+import ApItemMasterListPage from '../../pages/affordplan/affordplan-masters/ap-item-master-list.page.js';
 import { readCSV } from '../../utils/readCSV.js';
 // import data from '../../test-data/dropdownMaster.json';
 // import getDropdownListFromApi from '../../utils/getDropdownListFromApi.js';

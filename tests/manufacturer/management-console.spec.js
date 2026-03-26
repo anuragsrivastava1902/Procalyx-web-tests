@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test"
 import ManagementConsolePage from "../../pages/manufacturer/management-console-page";
-import ManufacturerDashboardPage from "../../pages/dashboard/manufacturer-dashboard.page";
+import ManufacturerDashboardPage from "../../pages/affordplan/dashboard/manufacturer-dashboard.page";
 
 test.describe('management console', () => {
     test.use({ storageState: 'storage/auth.json' })

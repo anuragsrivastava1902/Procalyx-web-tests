@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import ApAdminDashboardPage from '../../pages/dashboard/ap-admin-dashboard.page.js';
-import HospitalOnboardingFormPage from '../../pages/onboarding/hospital-onboarding-form.page.js';
-import HospitalOnboardingListPage from '../../pages/onboarding/hospital-onboarding-list.page.js';
+import ApAdminDashboardPage from '../../pages/affordplan/dashboard/ap-admin-dashboard.page.js';
+import HospitalOnboardingFormPage from '../../pages/affordplan/onboarding/hospital-onboarding-form.page.js';
+import HospitalOnboardingListPage from '../../pages/affordplan/onboarding/hospital-onboarding-list.page.js';
 
 
 import { readCSV } from '../../utils/readCSV';

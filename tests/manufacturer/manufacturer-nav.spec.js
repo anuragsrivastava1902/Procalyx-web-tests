@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import ManufacturerDashboardPage from "../../pages/dashboard/manufacturer-dashboard.page";
+import ManufacturerDashboardPage from "../../pages/affordplan/dashboard/manufacturer-dashboard.page";
 
 
 

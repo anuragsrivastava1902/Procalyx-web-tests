@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { readCSV } from '../../utils/readCSV.js';
-import ApAdminDashboardPage from '../../pages/dashboard/ap-admin-dashboard.page.js';
-import MappingMasterListPage from '../../pages/affordplan-masters/mapping-masters-list.page.js';
-import MappingMasterFormPage from '../../pages/affordplan-masters/mapping-masters-form.page.js';
+import ApAdminDashboardPage from '../../pages/affordplan/dashboard/ap-admin-dashboard.page.js';
+import MappingMasterListPage from '../../pages/affordplan/affordplan-masters/mapping-masters-list.page.js';
+import MappingMasterFormPage from '../../pages/affordplan/affordplan-masters/mapping-masters-form.page.js';
 
 let mappings = [];
 try {

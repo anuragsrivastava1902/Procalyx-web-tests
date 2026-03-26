@@ -13,11 +13,11 @@
             "email": "admin4@yopmail.com",
             "isKamUser": false
         },
-        "ap_hKam": {
+        "ap_hkam": {
             "email": "hkamap@yopmail.com",
             "isKamUser": true
         },
-        "ap_mKam": {
+        "ap_mkam": {
             "email": "mkamap@yopmail.com",
             "isKamUser": true
         },
@@ -26,22 +26,22 @@
             "isKamUser": false
         },
         "h_superadmin": {
-            "email": "spoc@demolive.com",
+            "email": "superadmindemohosp@yopmail.com",
             "isKamUser": false
         },
         "h_cxo": {
-            "email": "cxo4@yopmail.com",
+            "email": "cxodemohos@yopmail.com",
             "isKamUser": false
         },
         "h_operator": {
-            "email": "operator4@demolive.com",
+            "email": "operatordemohosp@yopmail.com",
             "isKamUser": false
         },
         "m_superadmin": {
             "email": "ciplauser@cipla.com",
             "isKamUser": false
         },
-        "m_businessHead":{
+        "m_businesshead":{
             "email":"bhead4cipla@yopmail.com",
             "isKamUser": false
         },

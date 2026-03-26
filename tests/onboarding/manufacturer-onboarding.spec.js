@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import ApAdminDashboardPage from '../../pages/dashboard/ap-admin-dashboard.page';
-import ManufacturerOnboardingFormPage from '../../pages/onboarding/manufacturer-onboarding-form.page';
-import ManufacturerOnboardingListPage from '../../pages/onboarding/manufacturer-onboarding-list.page';
+import ApAdminDashboardPage from '../../pages/affordplan/dashboard/ap-admin-dashboard.page';
+import ManufacturerOnboardingFormPage from '../../pages/affordplan/onboarding/manufacturer-onboarding-form.page';
+import ManufacturerOnboardingListPage from '../../pages/affordplan/onboarding/manufacturer-onboarding-list.page';
 import { readCSV } from '../../utils/readCSV';
 
 let mfgs = [];
