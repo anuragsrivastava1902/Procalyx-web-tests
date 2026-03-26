@@ -13,6 +13,5 @@ test.describe('testing manufacturer navigation', () => {
         await manufacturerDashboardPage.goToUserManagement();
         await manufacturerDashboardPage.goToQuoteRepository();
         await manufacturerDashboardPage.goToQuoteScreen();
-        await page.pause();
      })
-})
+})  

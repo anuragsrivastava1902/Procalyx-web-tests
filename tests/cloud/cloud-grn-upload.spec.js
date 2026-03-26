@@ -1,4 +1,7 @@
 import { test, expect, chromium } from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 
 test('check grn upload', async () => {
@@ -7,10 +10,10 @@ test('check grn upload', async () => {
     const page = await context.newPage();
 
 
-    const url = 'https://cloud-qa.procalyx.net/login';
-    const email = 'anurag.srivastava@affordplan.com';
-    const password = 'affordplan@1902';
-    const cloud_id = "HOS-597B9BE1"
+    const url = process.env.CLOUD_URL;
+    const email = process.env.CLOUD_EMAIL;
+    const password = process.env.CLOUD_PASSWORD;
+    const cloud_id = process.env.HOSPITAL_UNIT_CLOUD_ID;
 
     await page.goto(url, { waitUntil: 'networkidle' });
 
@@ -31,10 +34,10 @@ test('check grn upload', async () => {
 
     // Optional: keep browser open
     // await browser.close();
-    
+
     // open hospital files folder
     await page.getByRole('button', { name: 'Open folder Hospital Files' }).click();
-    
+
     //click on add new button
     await page.getByText('New', { exact: true }).first().click();
 
@@ -46,7 +49,7 @@ test('check grn upload', async () => {
 
     //click create button
     await page.getByText('Create', { exact: true }).first().click();
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
 
     //open the created folder
     await page.getByRole('button', { name: `Open folder ${cloud_id}` }).click();
