@@ -14,7 +14,6 @@ try {
 }
 
 test.describe.parallel('hospital onboarding tests', () => {
-    // test.use({ storageState: 'storage/auth.ap_superadmin.json' });
     test(`test hospital onboarding for mandatory fields by ap superadmin`, async ({ browser }) => {
         const context = await browser.newContext({ storageState: 'storage/auth.ap_superadmin.json' });
         const page = await context.newPage();
@@ -25,22 +24,22 @@ test.describe.parallel('hospital onboarding tests', () => {
 
         await page.goto('/dashboard');
         await apAdminMenu.goToHospitalOnboarding()
+        await hospitalOnboardingListPage.check()
+        await page.pause()
         await hospitalOnboardingListPage.clickAddNewHospitalButton();
-        await hospitalOnboardingFormPage.fillForm(hospitals[0], { isKamUser: false })
+        await hospitalOnboardingFormPage.fillHospitalKyb(hospitals[0])
+        await hospitalOnboardingFormPage.fillHospitalInfo(hospitals[0])
+        await hospitalOnboardingFormPage.fillHospitalHIS(hospitals[0])
+        await hospitalOnboardingFormPage.fillHospitalInfra(hospitals[0])
+        await hospitalOnboardingFormPage.selectApHkam({ isKamUser: false })
+        await hospitalOnboardingFormPage.fillHospitalSpocDetails(hospitals[0])
+        await hospitalOnboardingFormPage.fillHospitalContract(hospitals[0])
+        await hospitalOnboardingFormPage.fillHospitalCommercials(hospitals[0]);
+        await hospitalOnboardingFormPage.fillHospitalBankDetails(hospitals[0])
+        await hospitalOnboardingFormPage.saveHospital()
+        await hospitalOnboardingFormPage.verifyNudge()
     })
 
-    // test.use({ storageState: 'storage/auth.ap_hkam.json' });
-    test(`test hospital onboarding for mandatory fields by ap hkam`, async ({browser}) => {
-        const context = await browser.newContext({ storageState: 'storage/auth.ap_hkam.json' });
-        const page = await context.newPage();
 
-        const apHkamMenu = new ApHkamMenu(page);
-        const hospitalOnboardingFormPage = new HospitalOnboardingFormPage(page);
-        const hospitalOnboardingListPage = new HospitalOnboardingListPage(page);
-
-        await page.goto('/dashboard');
-        await apHkamMenu.goToHospitalOnboarding()
-        await hospitalOnboardingListPage.clickAddNewHospitalButton();
-        await hospitalOnboardingFormPage.fillForm(hospitals[0], { isKamUser: true })
-    })
+    
 })

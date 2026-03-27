@@ -5,14 +5,14 @@ export default class HospitalOnboardingFormPage {
         this.page = page;
         this.hospitalKybSection = page.getByRole('region', { name: 'Hospital KYB' })
         this.hospitalInfoSection = page.getByRole('region', { name: 'Hospital Information' })
-        this.hospitalInfraSection =page.getByRole('region', { name: 'Hospital Infrastructure' })
+        this.hospitalInfraSection = page.getByRole('region', { name: 'Hospital Infrastructure' })
         this.hospitalHisSection = page.getByRole('region', { name: 'Hospital HIS' })
         this.apSpocInfoSection = page.getByRole('region', { name: 'AP SPOC Info' })
         this.hospitalSpocInfoSection = page.getByRole('region', { name: 'Hospital SPOC Info' })
         this.hospitalContractDetailsSection = page.getByRole('region', { name: 'Hospital Contract Details' })
         this.hospitalCommercialSection = page.getByRole('region', { name: 'Hospital Contract Details' })
         this.hospitalBankDetailsSection = page.getByRole('region', { name: 'Hospital Bank Account Details' })
-        
+
         this.pan = page.getByRole('textbox', { name: 'Enter 10-digit PAN number' });
         this.gst = page.locator('input[name="kyb.gstNumber"]')
         this.hospitalLegalName = page.locator('input[name="kyb.hospitalLegalName"]');
@@ -59,34 +59,23 @@ export default class HospitalOnboardingFormPage {
 
         this.alertMessage = page.locator('.MuiAlert-message').last();
         this.saveButton = page.getByRole('button', { name: 'Save' })
-
-
-
-
     }
 
-    async fillKybFields(mfg) {
-    }
-
-    async fillForm(data, { isKamUser }) {
-        // Fill PAN and GST
+    async fillHospitalKyb(data) {
         await this.pan.fill(data.pan);
         await this.gst.fill(data.gst);
         await this.hospitalLegalName.fill(data.hospitalLegalName);
         await this.hospitalName.fill(data.hospitalName);
+    }
 
-        // Select hospital type
+
+    async fillHospitalInfo(data) {
         await this.hospitalType.click();
-        await this.page.keyboard.press('ArrowDown');
-        await this.page.keyboard.press('Enter');
-
-        //No. of units
+        await this.page.getByText('Clinic').waitFor({state:'visible'})
+        await this.hospitalType.press('ArrowDown');
+        await this.hospitalType.press('Enter');
         await this.numberOfUnitsInput.fill(data.numberOfUnits)
-
-        // Address fields
         await this.addressInputField.fill(data.operationalAddress);
-
-        // Country, State, City dropdowns
         await this.countryDropdown.click();
         await this.countryOption.click();
         await this.stateDropdown.click();
@@ -94,61 +83,76 @@ export default class HospitalOnboardingFormPage {
         await this.cityDropdown.click();
         await this.cityOption.click();
         await this.PincodeInputField.fill(data.pincode);
+    }
 
-        // Hospital HIS dropdown
+    async fillHospitalHIS(data) {
         await this.hospitalHisDropdown.click();
         await this.hospitalHisOption.click();
         await this.hospitalHisIntegrationStatusDropdown.click()
         await this.hospitalHisIntegrationStatusOption.click()
         await this.hospitalHisIntegrationModeDropdown.click()
         await this.hospitalHisIntegrationModeOption.click()
+    }
 
 
-        // Speciality dropdown (select two for demo)
+    async fillHospitalInfra(data) {
         await this.specialityDropdown.click();
         await this.specialityOption1.click();
         await this.specialityOption2.click();
-
-        // Number of beds
         await this.numberOfBedsInput.fill(data.numberOfBeds);
+    }
 
-        // AP KAM Info dropdown
+    async selectApHkam({ isKamUser }) {
         if (!isKamUser) {
             await this.apKamNameDropdown.click();
             await this.page.keyboard.press('ArrowDown'); // first option
             await this.page.keyboard.press('ArrowDown'); // second option
             await this.page.keyboard.press('Enter');     // select it
-            //await this.apKamOption.click();
         }
+    }
 
-        // Hospital SPOC fields
+    async fillHospitalSpocDetails(data) {
         await this.hospitalSpocNameInput.fill(data.spocName);
         await this.hospitalSpocDesignationInput.fill(data.spocDesignation);
         await this.hospitalSpocEmailInput.fill(data.spocEmail);
         await this.hospitalSpocPhoneInput.fill(data.spocPhone);
         await this.hospitalSpocDepartmentDropdown.click();
         await this.hospitalSpocDepartmentOption.click();
+    }
 
-        // Contract/Operational Status dropdowns
+    async fillHospitalContract(data) {
         await this.hospitalContractStatusDropdown.click();
         await this.hospitalContractStatusOption.click();
         await this.hospitalOperationalStatusDropdown.click();
         await this.hospitalOperationalStatusOption.click();
+    }
 
-        this.page.on('response', res => {
-            console.log('API: ', res.status(), res.url())
-        })
+    async fillHospitalCommercials(data) {
 
-        // Save
-        await Promise.all([
+    }
+
+    async fillHospitalBankDetails(data) {
+
+    }
+
+    //     this.page.on('response', res => {
+    //     console.log('API: ', res.status(), res.url())
+    // })
+
+    async saveHospital() {
+        const [response] = await Promise.all([
             this.page.waitForResponse(res =>
-                res.url().includes('/api/v1/hospitals') &&  // adjust endpoint
+                res.url().includes('/api/v1/hospitals') &&
                 res.request().method() === 'POST'),
-            // && res.status() === 200),
             this.saveButton.click(),
         ])
+        const responseBody = await response.json()
+        if (!response.ok()) {
+            throw new Error(`Save failed:\n ${JSON.stringify(responseBody.error.message, null, 2)}`);
+        }
+    }
 
-
+    async verifyNudge() {
         await expect(this.alertMessage).toBeVisible({ timeout: 10000 });
         const message = await this.alertMessage.innerText();
         console.log(message);
