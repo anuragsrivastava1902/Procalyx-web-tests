@@ -13,7 +13,9 @@ export default class HospitalQuoteMgmtPage {
     }
 
     async viewAdditionalMfs() {
+        await this.additionalMfsBtn.waitFor({state:'visible'})
         await this.additionalMfsBtn.click();
+        console.log("additional clicked")
     }
 
     async waitForPageToLoadComplete() {

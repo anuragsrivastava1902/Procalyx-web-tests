@@ -6,7 +6,7 @@
     },
     "users": {
         "ap_superadmin": {
-            "email": "shikha.sehrawat@affordplan.com",
+            "email": "superadminap@yopmail.com",
             "isKamUser": false
         },
         "ap_admin": {
@@ -14,7 +14,7 @@
             "isKamUser": false
         },
         "ap_hkam": {
-            "email": "hkamap@yopmail.com",
+            "email": "hkamap2@yopmail.com",
             "isKamUser": true
         },
         "ap_mkam": {

@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test"
-import ManagementConsolePage from "../../pages/manufacturer/management-console-page";
+import ManagementConsolePage from "../../pages/manufacturer/management-console.page";
 import ManufacturerDashboardPage from "../../pages/affordplan/dashboard/manufacturer-dashboard.page";
 
 test.describe('management console', () => {

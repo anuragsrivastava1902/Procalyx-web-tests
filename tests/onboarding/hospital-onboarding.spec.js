@@ -1,10 +1,9 @@
 import { test, expect } from '@playwright/test';
-import ApAdminDashboardPage from '../../pages/affordplan/dashboard/ap-admin-dashboard.page.js';
+import { readCSV } from '../../utils/readCSV';
+import ApAdminMenu from '../../pages/affordplan/ap-admin-menu.page.js';
 import HospitalOnboardingFormPage from '../../pages/affordplan/onboarding/hospital-onboarding-form.page.js';
 import HospitalOnboardingListPage from '../../pages/affordplan/onboarding/hospital-onboarding-list.page.js';
-
-
-import { readCSV } from '../../utils/readCSV';
+import ApHkamMenu from '../../pages/affordplan/ap-hkam-menu.page';
 
 let hospitals = [];
 try {
@@ -15,17 +14,33 @@ try {
 }
 
 test.describe.parallel('hospital onboarding tests', () => {
-    test.use({ storageState: 'storage/auth.json' });
-    for (const hospital of hospitals) {
-        test(`test hospital onboarding by mandatory fields for ${hospital.hospitalName}`, async ({ page }) => {
-            const apAdminDashboardPage = new ApAdminDashboardPage(page);
-            const hospitalOnboardingFormPage = new HospitalOnboardingFormPage(page);
-            const hospitalOnboardingListPage = new HospitalOnboardingListPage(page);
+    // test.use({ storageState: 'storage/auth.ap_superadmin.json' });
+    test(`test hospital onboarding for mandatory fields by ap superadmin`, async ({ browser }) => {
+        const context = await browser.newContext({ storageState: 'storage/auth.ap_superadmin.json' });
+        const page = await context.newPage();
 
-            await page.goto('/dashboard');
-            await apAdminDashboardPage.goToHospitalOnboarding();
-            await hospitalOnboardingListPage.clickAddNewHospitalButton();
-            await hospitalOnboardingFormPage.fillForm(hospital)
-        })
-    }
+        const apAdminMenu = new ApAdminMenu(page);
+        const hospitalOnboardingFormPage = new HospitalOnboardingFormPage(page);
+        const hospitalOnboardingListPage = new HospitalOnboardingListPage(page);
+
+        await page.goto('/dashboard');
+        await apAdminMenu.goToHospitalOnboarding()
+        await hospitalOnboardingListPage.clickAddNewHospitalButton();
+        await hospitalOnboardingFormPage.fillForm(hospitals[0], { isKamUser: false })
+    })
+
+    // test.use({ storageState: 'storage/auth.ap_hkam.json' });
+    test(`test hospital onboarding for mandatory fields by ap hkam`, async ({browser}) => {
+        const context = await browser.newContext({ storageState: 'storage/auth.ap_hkam.json' });
+        const page = await context.newPage();
+
+        const apHkamMenu = new ApHkamMenu(page);
+        const hospitalOnboardingFormPage = new HospitalOnboardingFormPage(page);
+        const hospitalOnboardingListPage = new HospitalOnboardingListPage(page);
+
+        await page.goto('/dashboard');
+        await apHkamMenu.goToHospitalOnboarding()
+        await hospitalOnboardingListPage.clickAddNewHospitalButton();
+        await hospitalOnboardingFormPage.fillForm(hospitals[0], { isKamUser: true })
+    })
 })

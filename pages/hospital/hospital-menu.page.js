@@ -1,4 +1,4 @@
-export default class HospitalMenuPage {
+export default class HospitalMenu {
     constructor(page) {
         this.page = page;
 

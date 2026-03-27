@@ -3,6 +3,16 @@ import { expect } from "@playwright/test";
 export default class HospitalOnboardingFormPage {
     constructor(page) {
         this.page = page;
+        this.hospitalKybSection = page.getByRole('region', { name: 'Hospital KYB' })
+        this.hospitalInfoSection = page.getByRole('region', { name: 'Hospital Information' })
+        this.hospitalInfraSection =page.getByRole('region', { name: 'Hospital Infrastructure' })
+        this.hospitalHisSection = page.getByRole('region', { name: 'Hospital HIS' })
+        this.apSpocInfoSection = page.getByRole('region', { name: 'AP SPOC Info' })
+        this.hospitalSpocInfoSection = page.getByRole('region', { name: 'Hospital SPOC Info' })
+        this.hospitalContractDetailsSection = page.getByRole('region', { name: 'Hospital Contract Details' })
+        this.hospitalCommercialSection = page.getByRole('region', { name: 'Hospital Contract Details' })
+        this.hospitalBankDetailsSection = page.getByRole('region', { name: 'Hospital Bank Account Details' })
+        
         this.pan = page.getByRole('textbox', { name: 'Enter 10-digit PAN number' });
         this.gst = page.locator('input[name="kyb.gstNumber"]')
         this.hospitalLegalName = page.locator('input[name="kyb.hospitalLegalName"]');
@@ -12,19 +22,19 @@ export default class HospitalOnboardingFormPage {
         this.numberOfUnitsInput = page.locator('[name="info.numberOfUnits"]')
         this.addressInputField = page.locator('textarea[name="info.operationalAddress"]');
 
-        this.countryDropdown = page.locator('form').getByRole('combobox').nth(1)
+        this.countryDropdown = this.hospitalInfoSection.getByRole('combobox').nth(1)
         this.countryOption = page.getByRole('option', { name: 'India' })
-        this.stateDropdown = page.locator('form').getByRole('combobox').nth(2)
+        this.stateDropdown = this.hospitalInfoSection.getByRole('combobox').nth(2)
         this.stateOption = page.getByRole('option', { name: 'Bihar' })
-        this.cityDropdown = page.locator('form').getByRole('combobox').nth(3);
+        this.cityDropdown = this.hospitalInfoSection.getByRole('combobox').nth(3)
         this.cityOption = page.getByRole('option', { name: 'Baisi' })
         this.PincodeInputField = page.locator('[name="info.pincode"]');
 
-        this.hospitalHisDropdown = page.locator('form').getByRole('combobox').nth(4)
+        this.hospitalHisDropdown = this.hospitalHisSection.getByRole('combobox').nth(0)
         this.hospitalHisOption = page.getByText('Allscripts', { exact: true })
-        this.hospitalHisIntegrationStatusDropdown = page.locator('form').getByRole('combobox').nth(5)
+        this.hospitalHisIntegrationStatusDropdown = this.hospitalHisSection.getByRole('combobox').nth(1)
         this.hospitalHisIntegrationStatusOption = page.getByText('In Progress', { exact: true })
-        this.hospitalHisIntegrationModeDropdown = page.locator('form').getByRole('combobox').nth(6)
+        this.hospitalHisIntegrationModeDropdown = this.hospitalHisSection.getByRole('combobox').nth(2)
         this.hospitalHisIntegrationModeOption = page.getByText('API', { exact: true })
         this.specialityDropdown = page.getByRole('combobox', { name: 'Select specialties...' })
         this.specialityOption1 = page.getByRole('option', { name: 'Cardiology' })
@@ -32,7 +42,7 @@ export default class HospitalOnboardingFormPage {
 
         this.numberOfBedsInput = page.locator('[name="infrastructure.numberOfBeds"]')
 
-        this.apKamNameDropdown = page.getByRole('region', { name: 'AP KAM Info' }).getByLabel('', { exact: true })
+        this.apKamNameDropdown = page.getByRole('region', { name: 'AP KAM Info' }).getByRole('combobox').nth(0)
         this.apKamOption = page.getByRole('option', { name: 'ap hkam user 3 (' })
 
         this.hospitalSpocNameInput = page.locator('input[name="hospitalSPOC.name"]')
@@ -42,9 +52,9 @@ export default class HospitalOnboardingFormPage {
         this.hospitalSpocDepartmentDropdown = page.getByRole('combobox', { name: 'Select department' })
         this.hospitalSpocDepartmentOption = page.getByRole('option', { name: 'Operations' })
 
-        this.hospitalContractStatusDropdown = page.locator('form').getByRole('combobox').nth(10)
+        this.hospitalContractStatusDropdown = this.hospitalContractDetailsSection.getByRole('combobox').nth(0)
         this.hospitalContractStatusOption = page.getByRole('option', { name: 'Contract Cancelled' })
-        this.hospitalOperationalStatusDropdown = page.locator('form').getByRole('combobox').nth(11)
+        this.hospitalOperationalStatusDropdown = this.hospitalContractDetailsSection.getByRole('combobox').nth(1)
         this.hospitalOperationalStatusOption = page.getByRole('option', { name: 'Active', exact: true })
 
         this.alertMessage = page.locator('.MuiAlert-message').last();
@@ -58,7 +68,7 @@ export default class HospitalOnboardingFormPage {
     async fillKybFields(mfg) {
     }
 
-    async fillForm(data) {
+    async fillForm(data, { isKamUser }) {
         // Fill PAN and GST
         await this.pan.fill(data.pan);
         await this.gst.fill(data.gst);
@@ -67,7 +77,8 @@ export default class HospitalOnboardingFormPage {
 
         // Select hospital type
         await this.hospitalType.click();
-        await this.hospitalTypeOption.click();
+        await this.page.keyboard.press('ArrowDown');
+        await this.page.keyboard.press('Enter');
 
         //No. of units
         await this.numberOfUnitsInput.fill(data.numberOfUnits)
@@ -102,8 +113,13 @@ export default class HospitalOnboardingFormPage {
         await this.numberOfBedsInput.fill(data.numberOfBeds);
 
         // AP KAM Info dropdown
-        await this.apKamNameDropdown.click();
-        await this.apKamOption.click();
+        if (!isKamUser) {
+            await this.apKamNameDropdown.click();
+            await this.page.keyboard.press('ArrowDown'); // first option
+            await this.page.keyboard.press('ArrowDown'); // second option
+            await this.page.keyboard.press('Enter');     // select it
+            //await this.apKamOption.click();
+        }
 
         // Hospital SPOC fields
         await this.hospitalSpocNameInput.fill(data.spocName);
@@ -132,8 +148,8 @@ export default class HospitalOnboardingFormPage {
             this.saveButton.click(),
         ])
 
-        
-        await expect(this.alertMessage).toBeVisible({timeout:10000});
+
+        await expect(this.alertMessage).toBeVisible({ timeout: 10000 });
         const message = await this.alertMessage.innerText();
         console.log(message);
     }
