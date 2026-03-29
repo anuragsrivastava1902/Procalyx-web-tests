@@ -36,17 +36,19 @@ test.describe.parallel('hospital onboarding tests', () => {
         await hospitalOnboardingFormPage.fillHospitalBankDetails(hospitals[1])
         await page.pause()
         await hospitalOnboardingFormPage.saveHospital()
-        // await hospitalOnboardingFormPage.verifyNudge()
+        await hospitalOnboardingFormPage.verifyNudge()
 
-        // context.close();
+        context.close();
 
-        // const adminContext = await browser.newContext({ storageState: 'storage/auth.ap_superadmin.json' });
-        // const adminPage = await adminContext.newPage();
+        const adminContext = await browser.newContext({ storageState: 'storage/auth.ap_superadmin.json' });
+        const adminPage = await adminContext.newPage();
 
-        // const apAdminMenu = new ApAdminMenu(adminPage);
+        const apAdminMenu = new ApAdminMenu(adminPage);
+        const hospitalOnboardingListPage2 = new HospitalOnboardingListPage(adminPage)
 
-        // await adminPage.goto('/dashboard');
-        // await apAdminMenu.goToHospitalOnboarding();
+        await adminPage.goto('/dashboard');
+        await apAdminMenu.goToHospitalOnboarding();
+        await hospitalOnboardingListPage2.approveHospital(hospitals[1].hospitalName)
         // await adminPage.pause();
 
     })

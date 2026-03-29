@@ -24,7 +24,7 @@ test.describe.parallel('hospital onboarding tests', () => {
 
         await page.goto('/dashboard');
         await apAdminMenu.goToHospitalOnboarding()
-        await hospitalOnboardingListPage.check()
+        await hospitalOnboardingListPage.approveHospital('test hospital 02')
         await page.pause()
         await hospitalOnboardingListPage.clickAddNewHospitalButton();
         await hospitalOnboardingFormPage.fillHospitalKyb(hospitals[0])

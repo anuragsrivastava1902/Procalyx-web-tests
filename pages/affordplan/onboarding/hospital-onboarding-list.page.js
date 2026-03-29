@@ -1,31 +1,55 @@
 export default class HospitalOnboardingListPage {
     constructor(page) {
         this.page = page;
-        this.addNewHospital = page.getByRole('button', { name: 'Add New Hospital' })
-
-        this.approvalCard = page.getByText('Pending Onboarding Request').locator('..')
+        this.addNewHospitalBtn = page.getByRole('button', { name: 'Add New Hospital' })
         this.approveOrRejectBtn = page.getByRole('button', { name: 'Approve / Reject' })
+        this.pendingCardContainer = page.getByText('Pending Onboarding Request').locator('..')
+        this.approvalNoteInput = page.getByRole('textbox', { name: /Add any note/i })
+        this.confirmationDialogBox = page.locator('div[class*=MuiDialog-container]')
+        this.rejectionNoteInput = page.getByRole('textbox', { name: /Please provide a reason for rejection/i })
+        this.approveConfirmBtn = page.getByRole('button', { name: 'Approve Hospital' })
+        this.rejectConfirmBtn = this.confirmationDialogBox.getByText('Reject', { exact: true })
     }
 
     async clickAddNewHospitalButton() {
-        await this.addNewHospital.click();
+        await this.addNewHospitalBtn.click();
     }
 
-    async print() {
-        await this.approvalCard.waitFor({ state: 'visible' })
-        const text = await this.approvalCard.innerText()
-        const lines = text.split('\n').filter(line => line.trim() !== '');
-        console.log(lines[1])
+    // async print() {
+    //     await this.pendingApprovalCard.waitFor({ state: 'visible' })
+    //     const text = await this.pendingApprovalCard.innerText()
+    //     const lines = text.split('\n').filter(line => line.trim() !== '');
+    //     console.log(lines[1])
+    // }
+
+    async approveHospital(hospitalName) {
+        await this.pendingCardContainer.waitFor({ state: 'visible' })
+        const pendingHospitalcount = await this.pendingCardContainer.locator(':scope > div').count();
+        console.log(pendingHospitalcount)
+        for (let i = 0; i < pendingHospitalcount; i++) {
+            const text = await this.pendingCardContainer.locator(':scope > div').nth(i).innerText()
+            console.log(text)
+            if (text.includes(hospitalName)) {
+                this.pendingCardContainer.locator(':scope > div').nth(i).getByRole('button', { name: 'Approve / Reject' }).click()
+                this.approvalNoteInput.fill('approved')
+                await this.page.pause();
+                this.approveConfirmBtn.click()
+            }
+        }
     }
 
-    async check() {
-        await this.approvalCard.waitFor({ state: 'visible' })
-        const parentDiv = this.approveOrRejectBtn.locator('xpath=../..')
-        const parentTexts = await parentDiv.innerText()
-        console.log("parent text >>>>>>> \n", parentTexts)
-        if (parentTexts.includes('test hospital 02')){
-            console.log('clickable \n\n clicking \n')
-            this.approveOrRejectBtn.click();
+    async rejectHospital(hospitalName) {
+        await this.pendingCardContainer.waitFor({ state: 'visible' })
+        const pendingHospitalcount = await this.pendingCardContainer.locator(':scope > div').count();
+        console.log(pendingHospitalcount)
+        for (let i = 0; i < pendingHospitalcount; i++) {
+            const text = await this.pendingCardContainer.locator(':scope > div').nth(i).innerText()
+            console.log(text)
+            if (text.includes(hospitalName)) {
+                this.pendingCardContainer.locator(':scope > div').nth(i).getByRole('button', { name: 'Approve / Reject' }).click()
+                this.rejectionNoteInput.fill('rejected')
+                this.rejectConfirmBtn.click()
+            }
         }
     }
 

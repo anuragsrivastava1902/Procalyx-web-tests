@@ -10,14 +10,15 @@ test('login by api', async ({ browser }) => {
     console.log("role is", role);
 
     if (!role) {
-        throw new Error('❌ Pass role using --role=admin');
+        throw new Error('❌ Pass role using ROLE=<role-name>');
     }
 
     const { baseURL, email } = readConfig(role);
     console.log(`🔐 Logging in as: ${role}`);
     console.log(`📧 Email: ${email}`);
+    console.log(`URL: ${baseURL} \n`)
 
-    const context = await browser.newContext({ baseURL: 'https://api-qa.procalyx.net' });
+    const context = await browser.newContext({ baseURL: baseURL });
     const page = await context.newPage();
 
     // Send OTP

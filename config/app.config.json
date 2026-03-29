@@ -1,20 +1,20 @@
 {
     "baseURL": {
-        "qa": "https://qa.procalyx.net",
-        "stage": "https://stage.procalyx.net",
-        "dev": "https://dev.procalyx.net"
+        "qa": "https://api-qa.procalyx.net",
+        "stage": "https://api-stage.procalyx.net",
+        "dev": "https://api-dev.procalyx.net"
     },
     "users": {
         "ap_superadmin": {
-            "email": "superadminap@yopmail.com",
+            "email": "shikha.sehrawat@affordplan.com",
             "isKamUser": false
         },
         "ap_admin": {
-            "email": "admin4@yopmail.com",
+            "email": "adminap2@yopmail.com",
             "isKamUser": false
         },
         "ap_hkam": {
-            "email": "hkamap2@yopmail.com",
+            "email": "farhan.quazi@affordplan.com",
             "isKamUser": true
         },
         "ap_mkam": {
