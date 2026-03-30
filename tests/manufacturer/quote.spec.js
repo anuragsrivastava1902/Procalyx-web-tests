@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import ManufacturerDashboardPage from "../../pages/affordplan/dashboard/manufacturer-dashboard.page";
+import ManufacturerDashboardPage from "../../pages/manufacturer/manufacturer-menu.page";
 import ManufacturerQuotePage from "../../pages/manufacturer/mfg-quote.page";
 
 test.describe('test quoting', () => {
@@ -15,7 +15,7 @@ test.describe('test quoting', () => {
         await manufacturerQuotePage.waitForQuotesToLoad();
         await manufacturerQuotePage.findRows();
         await manufacturerQuotePage.publishQuote();
-        
+
 
     })
 })

@@ -3,7 +3,7 @@ import { readCSV } from '../../utils/readCSV';
 import ApAdminMenu from '../../pages/affordplan/ap-admin-menu.page.js';
 import HospitalOnboardingFormPage from '../../pages/affordplan/onboarding/hospital-onboarding-form.page.js';
 import HospitalOnboardingListPage from '../../pages/affordplan/onboarding/hospital-onboarding-list.page.js';
-import ApHkamMenu from '../../pages/affordplan/ap-hkam-menu.page';
+import { generateEmail, generateMobileNumber } from '../../utils/generateTestData';
 
 let hospitals = [];
 try {
@@ -14,9 +14,12 @@ try {
 }
 
 test.describe.parallel('hospital onboarding tests', () => {
+    const hospital = hospitals[0]
     test(`test hospital onboarding for mandatory fields by ap superadmin`, async ({ browser }) => {
         const context = await browser.newContext({ storageState: 'storage/auth.ap_superadmin.json' });
         const page = await context.newPage();
+        hospital.spocPhone = generateMobileNumber()
+        hospital.spocEmail = generateEmail(hospital.spocName, hospital.hospitalName)
 
         const apAdminMenu = new ApAdminMenu(page);
         const hospitalOnboardingFormPage = new HospitalOnboardingFormPage(page);
@@ -24,22 +27,17 @@ test.describe.parallel('hospital onboarding tests', () => {
 
         await page.goto('/dashboard');
         await apAdminMenu.goToHospitalOnboarding()
-        await hospitalOnboardingListPage.approveHospital('test hospital 02')
-        await page.pause()
         await hospitalOnboardingListPage.clickAddNewHospitalButton();
-        await hospitalOnboardingFormPage.fillHospitalKyb(hospitals[0])
-        await hospitalOnboardingFormPage.fillHospitalInfo(hospitals[0])
-        await hospitalOnboardingFormPage.fillHospitalHIS(hospitals[0])
-        await hospitalOnboardingFormPage.fillHospitalInfra(hospitals[0])
+        await hospitalOnboardingFormPage.fillHospitalKyb(hospital)
+        await hospitalOnboardingFormPage.fillHospitalInfo(hospital)
+        await hospitalOnboardingFormPage.fillHospitalHIS(hospital)
+        await hospitalOnboardingFormPage.fillHospitalInfra(hospital)
         await hospitalOnboardingFormPage.selectApHkam({ isKamUser: false })
-        await hospitalOnboardingFormPage.fillHospitalSpocDetails(hospitals[0])
-        await hospitalOnboardingFormPage.fillHospitalContract(hospitals[0])
-        await hospitalOnboardingFormPage.fillHospitalCommercials(hospitals[0]);
-        await hospitalOnboardingFormPage.fillHospitalBankDetails(hospitals[0])
+        await hospitalOnboardingFormPage.fillHospitalSpocDetails(hospital)
+        await hospitalOnboardingFormPage.fillHospitalContract(hospital)
+        await hospitalOnboardingFormPage.fillHospitalCommercials(hospital);
+        await hospitalOnboardingFormPage.fillHospitalBankDetails(hospital)
         await hospitalOnboardingFormPage.saveHospital()
         await hospitalOnboardingFormPage.verifyNudge()
     })
-
-
-    
 })

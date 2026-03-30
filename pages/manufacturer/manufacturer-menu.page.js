@@ -1,4 +1,4 @@
-export default class ManufacturerDashboardPage {
+export default class ManufacturerMenu {
     constructor(page) {
         this.page = page;
         this.dashboardBtn  = page.getByRole('button', { name: 'Dashboard' })

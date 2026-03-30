@@ -11,7 +11,7 @@
     },
     "users": {
         "ap_superadmin": {
-            "email": "superadminap@yopmail.com",
+            "email": "superadmin@affordplan.com",
             "isKamUser": false
         },
         "ap_admin": {

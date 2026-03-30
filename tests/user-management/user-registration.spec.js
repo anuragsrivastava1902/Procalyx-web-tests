@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 import LoginPage from '../../pages/shared/auth/login.page.js';
-import ApAdminDashboardPage from '../../pages/affordplan/dashboard/ap-admin-dashboard.page.js';
 import ApAdminUserManagementFormPage from '../../pages/affordplan/user-management/ap-admin-user-mgmt-form.page.js';
 import ApAdminUserManagementListPage from '../../pages/affordplan/user-management/ap-admin-user-mgmt-list.page.js';
 
 
 
 import { readCSV } from '../../utils/readCSV.js';
+import ApAdminMenu from '../../pages/affordplan/ap-admin-menu.page.js';
 
 let users = [];
 try {
@@ -23,11 +23,11 @@ test.describe('user management tests', () => {
         if (user?.name?.trim()) {
         test(`check user Registration - ${user.name}`, async ({ page }) => {
                 await page.goto("/dashboard");
-                const apAdminDashboardPage = new ApAdminDashboardPage(page);
+                const apAdminMenu = new ApAdminMenu(page);
                 const apAdminUserManagementListPage = new ApAdminUserManagementListPage(page);
                 const apAdminUserManagementFormPage = new ApAdminUserManagementFormPage(page);
 
-                await apAdminDashboardPage.goToUserManagement();
+                await apAdminMenu.goToUserManagement();
                 await expect(apAdminUserManagementListPage.userManagementHeading).toBeVisible();
                 await expect(apAdminUserManagementListPage.addUserBtn).toBeEnabled();
                 await apAdminUserManagementListPage.startNewUserCreation();

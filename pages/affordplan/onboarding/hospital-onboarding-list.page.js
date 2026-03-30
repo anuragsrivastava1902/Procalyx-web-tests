@@ -32,7 +32,6 @@ export default class HospitalOnboardingListPage {
             if (text.includes(hospitalName)) {
                 this.pendingCardContainer.locator(':scope > div').nth(i).getByRole('button', { name: 'Approve / Reject' }).click()
                 this.approvalNoteInput.fill('approved')
-                await this.page.pause();
                 this.approveConfirmBtn.click()
             }
         }

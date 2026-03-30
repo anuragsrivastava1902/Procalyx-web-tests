@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import ManufacturerDashboardPage from "../../pages/affordplan/dashboard/manufacturer-dashboard.page";
+import ManufacturerDashboardPage from "../../pages/manufacturer/manufacturer-menu.page";
 
 
 
@@ -13,5 +13,5 @@ test.describe('testing manufacturer navigation', () => {
         await manufacturerDashboardPage.goToUserManagement();
         await manufacturerDashboardPage.goToQuoteRepository();
         await manufacturerDashboardPage.goToQuoteScreen();
-     })
+    })
 })  
