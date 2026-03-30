@@ -23,7 +23,7 @@ test.describe.parallel('testing item creation', () => {
             const apItemMasterListPage = new ApItemMasterListPage(page);
             const apItemMasterFormPage = new ApItemMasterFormPage(page);
 
-            await page.goto("https://qa.procalyx.net/dashboard");
+            await page.goto("/dashboard");
             await apAdminDashboardPage.goToApItemMaster();
             await apItemMasterListPage.startNewAPItemCreation();
 

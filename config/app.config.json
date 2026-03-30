@@ -1,12 +1,17 @@
 {
-    "baseURL": {
+    "apiURL": {
         "qa": "https://api-qa.procalyx.net",
         "stage": "https://api-stage.procalyx.net",
         "dev": "https://api-dev.procalyx.net"
     },
+    "frontendURL": {
+        "qa": "https://qa.procalyx.net",
+        "stage": "https://stage.procalyx.net",
+        "dev": "https://dev.procalyx.net"
+    },
     "users": {
         "ap_superadmin": {
-            "email": "shikha.sehrawat@affordplan.com",
+            "email": "superadminap@yopmail.com",
             "isKamUser": false
         },
         "ap_admin": {
@@ -14,7 +19,7 @@
             "isKamUser": false
         },
         "ap_hkam": {
-            "email": "farhan.quazi@affordplan.com",
+            "email": "hkamap@yopmail.com",
             "isKamUser": true
         },
         "ap_mkam": {

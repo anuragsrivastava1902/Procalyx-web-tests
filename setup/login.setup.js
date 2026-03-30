@@ -5,13 +5,15 @@ import { readConfig } from '../utils/readConfig';
 
 export default async function globalSetup() {
   console.log("global setup is running....");
-  const { baseURL, email, isKamUser } = readConfig(); // call reader function 
+  const role = process.env.ROLE || 'ap_superadmin'; // Default role for setup if not provided
+  console.log(`🔐 Setting up for role: ${role}`);
+  const { apiURL, frontendURL, email } = readConfig(role);
   const browser = await chromium.launch(); //browser represents a real browser instance (Chromium, Firefox etc.)
   const context = await browser.newContext(); //browser context is an isolated browser environment inside a browser.
   const page = await context.newPage(); //A page represents a single tab within a browser context.
   const loginPage = new LoginPage(page);
-  await page.goto(baseURL);
-  console.log("url is: ", baseURL);
+  await page.goto(frontendURL);
+  console.log("url is: ", frontendURL);
   console.log("email is ", email)
   await loginPage.enterUserEmail(email);
   //await loginPage.clickContinueButton();

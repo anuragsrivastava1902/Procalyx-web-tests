@@ -9,7 +9,7 @@ test.describe('testing exception handling', () => {
         const apAdminDashboardPage = new ApAdminDashboardPage(page);
         const exceptionHandlingListPage = new ExceptionHandlingListPage(page);
         const exceptionHandlingFormPage = new ExceptionHandlingFormPage(page);
-        await page.goto("https://qa.procalyx.net/dashboard");
+        await page.goto("/dashboard");
         await apAdminDashboardPage.goToExceptionHandling();
         await exceptionHandlingListPage.waitForPageToLoadComplete();
         await page.pause()

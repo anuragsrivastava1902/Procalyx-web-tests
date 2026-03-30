@@ -22,7 +22,7 @@ test.describe('user management tests', () => {
     for (const user of users) {
         if (user?.name?.trim()) {
         test(`check user Registration - ${user.name}`, async ({ page }) => {
-                await page.goto("https://qa.procalyx.net/dashboard");
+                await page.goto("/dashboard");
                 const apAdminDashboardPage = new ApAdminDashboardPage(page);
                 const apAdminUserManagementListPage = new ApAdminUserManagementListPage(page);
                 const apAdminUserManagementFormPage = new ApAdminUserManagementFormPage(page);

@@ -18,7 +18,7 @@ test.describe('auth tests', () => {
     for (const mfg of mfgs) {
         const uniqueSuffix = Date.now().toString().slice(-1)
         test(`test mfg onboarding by mandatory fields for ${mfg.mfgName}-${uniqueSuffix}`, async ({ page }) => {
-            await page.goto("https://qa.procalyx.net/dashboard");
+            await page.goto("/dashboard");
             const apAdminDashboardPage = new ApAdminDashboardPage(page);
             const manufacturerOnboardingListPage = new ManufacturerOnboardingListPage(page)
             const manufacturerOnboardingFormPage = new ManufacturerOnboardingFormPage(page);

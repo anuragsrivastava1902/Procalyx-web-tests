@@ -20,7 +20,7 @@ test.describe('testing mapping master', () => {
         const mappingMasterFormPage = new MappingMasterFormPage(page);
         const mapping = mappings[0];
 
-        await page.goto("https://qa.procalyx.net/dashboard");
+        await page.goto("/dashboard");
         await apAdminDashboardPage.goToMappingMasters();
         await mappingMasterListPage.openMappingForm('cloud testing unit r09');
         await mappingMasterFormPage.fillForm(mapping);
