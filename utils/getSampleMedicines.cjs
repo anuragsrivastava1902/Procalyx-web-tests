@@ -1,12 +1,12 @@
 const { chromium } = require('playwright');
+const { default: axios } = require('axios');
 
 (async () => {
   // Fetch drug data from openFDA API
   const item_name = 'dolo'
   const apiUrl = `https://api.fda.gov/drug/label.json?search=${item_name}`;
-  const response = await fetch(apiUrl);
-  const data = await response.json();
-  console.log(data)
+  const response = await axios.get(apiUrl, { family: 4 });
+  const data = response.data;
 
   // Extract medicine names and manufacturer names
   const drugs = data.results.map((item) => {

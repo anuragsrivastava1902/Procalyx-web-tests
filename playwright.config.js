@@ -25,6 +25,7 @@ export default defineConfig({
   use: {
     baseURL: process.env.ENV === 'stage' ? 'https://stage.procalyx.net' : 
              process.env.ENV === 'dev' ? 'https://dev.procalyx.net' : 
+             process.env.ENV === 'demo' ? 'https://demo.procalyx.net' : 
              'https://qa.procalyx.net', 
     // storageState: 'storage/auth.json',
     trace: 'on-first-retry',

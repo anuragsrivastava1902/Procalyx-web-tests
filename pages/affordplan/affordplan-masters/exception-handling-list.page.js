@@ -1,11 +1,12 @@
 import { expect } from "@playwright/test";
 
-export default class ExceptionHandlingListPage{
-    constructor(page){
+export default class ExceptionHandlingListPage {
+    constructor(page) {
         this.page = page;
         this.heading = page.getByRole('heading', { name: 'Exception Handling' });
-        this.exceptionItemEditBtn = page.getByRole('button', { name: 'Edit' }).first()
-        this.hospitalNameSearchInput = page.locator("input").nth(0)
+        this.rows = page.locator('tr')
+        this.table = page.locator('table')
+        this.hospitalNameSearchInput = this.table.locator("input").nth(0)
         this.unitNameSearchInput = page.locator("input").nth(1)
         this.unitCodeSearchInput = page.locator("input").nth(3)
         this.emailSearchInput = page.locator("input").nth(4)
@@ -13,13 +14,17 @@ export default class ExceptionHandlingListPage{
         this.supplierNameSearchInput = page.locator("input").nth(8)
     }
 
-    async editException(){
-        await expect(this.exceptionItemEditBtn).toBeEnabled({timeout:10000})
-        await this.exceptionItemEditBtn.click();
-        await this.page.pause();
+    getRowByItemName(itemName) {
+        return this.rows.filter({ hasText: itemName })
     }
 
-    async waitForPageToLoadComplete(){
-         await expect(this.page.locator('.MuiSkeleton-root'), "wait for table to load completely", ).toHaveCount(0, {timeout:20000});
+    async editException(itemName) {
+        const editButton = this.getRowByItemName(itemName).getByRole('button', { name: 'Edit' })
+        await expect(editButton).toBeEnabled({ timeout: 10000 })
+        await editButton.click();
+    }
+
+    async waitForPageToLoadComplete() {
+        await expect(this.page.locator('.MuiSkeleton-root'), "wait for table to load completely",).toHaveCount(0, { timeout: 20000 });
     }
 }

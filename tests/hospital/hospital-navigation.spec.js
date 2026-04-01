@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
-import HospitalDashboardPage from "../../pages/hospital/hospital-dashboard.page";
-import HospitalQuoteMgmtPage from "../../pages/hospital/hospital-quote-mgmt.page";
+import HospitalDashboardPage from "../../pages/hospital/dashboard/hospital-dashboard.page";
+import HospitalQuoteMgmtPage from "../../pages/hospital/quote-management/hospital-quote-list.page";
 import HospitalMenu from "../../pages/hospital/hospital-menu.page";
 
 test.describe('testing hospital side', () => {

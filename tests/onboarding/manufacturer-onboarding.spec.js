@@ -14,7 +14,7 @@ try {
 
 
 test.describe('auth tests', () => {
-    test.use({ storageState: 'storage/auth.json' });
+    test.use({ storageState: 'storage/auth.ap_superadmin.json' });
     const mfg = mfgs[0];
     test(`test mfg onboarding by mandatory fields for ${mfg.mfgName}}`, async ({ page }) => {
         await page.goto("/dashboard");
