@@ -1,6 +1,9 @@
+import { expect } from "@playwright/test";
+
 export default class ApItemMasterFormPage {
     constructor(page) {
         this.page = page;
+        this.formHeading = page.getByText(/New Affordplan Item/)
         this.itemNameInputField = page.getByRole('textbox', { name: /Item Name/i });
         this.genericNameInputField = page.getByRole('textbox', { name: /Generic Name/i });
         this.doseSizeInputField = page.getByRole('textbox', { name: /Dose\/Size/i });
@@ -25,6 +28,15 @@ export default class ApItemMasterFormPage {
         this.saveButton = page.getByRole('button', { name: /Save/i })
     }
 
+    // Helper method for selecting dropdown options dynamically
+    async selectDropdownOption(inputLocator, optionText) {
+        if (!optionText) return;
+        await inputLocator.fill(optionText);
+        const optionLocator = this.page.getByRole('option', { name: new RegExp(optionText, 'i') }).first();
+        await optionLocator.waitFor({ state: 'visible' });
+        await optionLocator.click();
+    }
+
     // ----------- action methods
     async fillForm(apItem) {
         await this.itemNameInputField.fill(apItem.itemName);
@@ -32,108 +44,52 @@ export default class ApItemMasterFormPage {
         await this.doseSizeInputField.fill(apItem.doseOrSize);
 
         //-------------------------------------------------------- select category from the dropdown
-
-        await this.categoryDropdown.fill(apItem.category);
-        const categoryOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.category, 'i')
-        }).nth(0);
-        await categoryOption.waitFor({ state: 'visible' })
-        await categoryOption.click();
+        await this.selectDropdownOption(this.categoryDropdown, apItem.category);
 
         //----------------------------------------------------------select dosageType from the dropdown
         if (apItem.category != 'Consumables') {
-            await this.dosageTypeDropdown.fill(apItem.dosageType);
-            const dosageTypeOption = this.page.getByRole('option', {
-                name: new RegExp(apItem.dosageType, 'i')
-            }).nth(0);
-            await dosageTypeOption.waitFor({ state: 'visible' })
-            await dosageTypeOption.click();
-            // await this.page.keyboard.press('Tab');
+            await this.selectDropdownOption(this.dosageTypeDropdown, apItem.dosageType);
+            await expect(this.dosageTypeDropdown).toHaveValue(apItem.dosageType);
         }
 
-
         //----------------------------------------------------- fill gst percent in the input field
-        await this.gstPercentInputField.click();
-        await this.gstPercentInputField.press('Control+A');
-        await this.gstPercentInputField.press('Backspace');
-        await this.gstPercentInputField.press('Backspace');
+        await this.gstPercentInputField.clear();
         await this.gstPercentInputField.fill(apItem.gstPercent);
 
 
         await this.hsnCodeInputField.fill(apItem.hsnCode);
-        await this.packMrpInputField.press('Backspace');
-        await this.packMrpInputField.type(apItem.packMrp);
-        await this.unitPerPackInputField.press('Backspace');
+        await this.packMrpInputField.clear();
+        await this.packMrpInputField.fill(apItem.packMrp);
+        await this.unitPerPackInputField.clear();
         await this.unitPerPackInputField.fill(apItem.unitPerPack);
 
-
         //-------------------------------------------------------- select uom type from the dropdown
-        await this.uomInputField.fill(apItem.uom);
-        const uomTypeOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.uom, 'i')
-        }).nth(0);
-        await uomTypeOption.waitFor({ state: 'visible' })
-        await uomTypeOption.click();
+        await this.selectDropdownOption(this.uomInputField, apItem.uom);
 
         //-------------------------------------------------------- select subcategory from the dropdown
-        await this.subcategoryInputField.fill(apItem.subcategory)
-        const subcategoryOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.subcategory, 'i')
-        }).nth(0);
-        await subcategoryOption.waitFor({ state: 'visible' })
-        await subcategoryOption.click();
+        await this.selectDropdownOption(this.subcategoryInputField, apItem.subcategory);
 
         //-------------------------------------------------------- select roa from the dropdown
-        await this.roaInputField.fill(apItem.roa);
-        const roaOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.roa, 'i')
-        }).nth(0);
-        await roaOption.waitFor({ state: 'visible' })
-        await roaOption.click();
+        await this.selectDropdownOption(this.roaInputField, apItem.roa);
 
         //-------------------------------------------------------- select therapy from the dropdown
-        await this.therapyAreaInputField.fill(apItem.therapyArea);
-        const therapyOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.therapyArea, 'i')
-        }).nth(0);
-        await therapyOption.waitFor({ state: 'visible' })
-        await therapyOption.click();
+        await this.selectDropdownOption(this.therapyAreaInputField, apItem.therapyArea);
 
         //-------------------------------------------------------- select group from the dropdown
-        await this.groupInputField.fill(apItem.group);
-        const groupOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.group, 'i')
-        }).nth(0);
-        await groupOption.waitFor({ state: 'visible' })
-        await groupOption.click();
+        await this.selectDropdownOption(this.groupInputField, apItem.group);
 
         //-------------------------------------------------------- select form from the dropdown
-        await this.formInputField.fill(apItem.form);
-        const formOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.form, 'i')
-        }).nth(0);
-        await formOption.waitFor({ state: 'visible' })
-        await formOption.click();
+        await this.selectDropdownOption(this.formInputField, apItem.form);
 
         //-------------------------------------------------------- select form/unit-type from the dropdown
-        await this.formUnitTypeInputField.fill(apItem.formOrUnitType);
-        const formUnitTypeOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.formOrUnitType, 'i')
-        }).nth(0);
-        await formUnitTypeOption.waitFor({ state: 'visible' })
-        await formUnitTypeOption.click();
+        await this.selectDropdownOption(this.formUnitTypeInputField, apItem.formOrUnitType);
 
         //-------------------------------------------------------- select mfg from the dropdown
-        await this.mfgInputField.fill(apItem.mfgName);
-        const mfgOption = this.page.getByRole('option', {
-            name: new RegExp(apItem.mfgName, 'i')
-        }).nth(0);
-        await mfgOption.waitFor({ state: 'visible' })
-        await mfgOption.click();
+        await this.selectDropdownOption(this.mfgInputField, apItem.mfgName);
 
         await this.packingSizeInputField.fill(apItem.packingSize);
-        await this.remarksInputField.fill(apItem.remarks)
-        // await this.page.pause();
+        await this.remarksInputField.fill(apItem.remarks);
+        await this.page.pause();
 
         //-------------------------------------------------------- click SAVE button
         await Promise.all([this.page.waitForResponse(res =>

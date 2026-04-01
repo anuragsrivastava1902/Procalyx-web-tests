@@ -3,5 +3,5 @@
     "checkJs": true,
     "module": "commonjs"
   },
-  "include": ["**/*.js"]
+  "include": ["**/*.js", "utils/getSampleMedicines.cjs"]
 }

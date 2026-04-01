@@ -6,18 +6,23 @@ import fs from 'fs';
 
 test('login by api', async ({ browser }) => {
     // get role from CLI
-    const role = process.env.ROLE;
+    const role = (process.env.ROLE || 'ap_superadmin').toLowerCase();
+    const environment = (process.env.ENV || 'qa').toLowerCase();
     console.log("role is", role);
+    console.log("environment is", environment)
 
     if (!role) {
-        throw new Error('❌ Pass role using --role=admin');
+        throw new Error('❌ Pass role using ROLE=<role-name>'); 
     }
 
-    const { baseURL, email } = readConfig(role);
+    const { apiURL, frontendURL, email, env } = readConfig(role,environment);
+    console.log(`🌍 Environment: ${env.toUpperCase()}`);
     console.log(`🔐 Logging in as: ${role}`);
     console.log(`📧 Email: ${email}`);
+    console.log(`🔗 API URL: ${apiURL}`);
+    console.log(`🔗 FE URL: ${frontendURL} \n`)
 
-    const context = await browser.newContext({ baseURL: 'https://api-qa.procalyx.net' });
+    const context = await browser.newContext({ baseURL: apiURL });
     const page = await context.newPage();
 
     // Send OTP
@@ -40,7 +45,7 @@ test('login by api', async ({ browser }) => {
     console.log("Token:", token);
 
     // Inject token into localStorage
-    await page.goto(baseURL);
+    await page.goto(frontendURL);
     await page.evaluate(({ token, refreshToken }) => {
         localStorage.setItem('auth_token', token);
         localStorage.setItem('refresh_token', refreshToken);

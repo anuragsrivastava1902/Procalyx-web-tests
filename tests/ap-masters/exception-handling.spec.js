@@ -1,19 +1,22 @@
 import { test, expect } from "@playwright/test";
-import ApAdminDashboardPage from "../../pages/dashboard/ap-admin-dashboard.page";
-import ExceptionHandlingFormPage from "../../pages/affordplan-masters/exception-handling-form.page";
-import ExceptionHandlingListPage from "../../pages/affordplan-masters/exception-handling-list.page";
+import ApAdminMenu from "../../pages/affordplan/ap-admin-menu.page";
+import ExceptionHandlingListPage from "../../pages/affordplan/affordplan-masters/exception-handling-list.page";
+import ExceptionHandlingEditPage from "../../pages/affordplan/affordplan-masters/exception-handling-edit.page";
 
 test.describe('testing exception handling', () => {
-    test.use({ storageState: 'storage/auth.json' });
+    test.use({ storageState: 'storage/auth.ap_superadmin.json' });
     test(`test edit exception page is opened?}`, async ({ page }) => {
-        const apAdminDashboardPage = new ApAdminDashboardPage(page);
+        const apAdminMenu = new ApAdminMenu(page);
         const exceptionHandlingListPage = new ExceptionHandlingListPage(page);
-        const exceptionHandlingFormPage = new ExceptionHandlingFormPage(page);
-        await page.goto("https://qa.procalyx.net/dashboard");
-        await apAdminDashboardPage.goToExceptionHandling();
+        const exceptionHandlingEditPage = new ExceptionHandlingEditPage(page);
+
+        await page.goto("/dashboard");
+        await apAdminMenu.goToExceptionHandling();
         await exceptionHandlingListPage.waitForPageToLoadComplete();
-        await page.pause()
-        await exceptionHandlingListPage.editException();
+        const itemName = 'NU PATCH 200 MG (DICLOFNAC )'
+        await exceptionHandlingListPage.editException(itemName);
+        await exceptionHandlingEditPage.searchApItem(itemName.split(' ')[0])
+        await exceptionHandlingEditPage.saveException()
     })
 })
 

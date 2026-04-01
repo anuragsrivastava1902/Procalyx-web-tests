@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
-import ManufacturerDashboardPage from "../../pages/dashboard/manufacturer-dashboard.page";
-import ManufacturerQuotePage from "../../pages/manufacturer/mfg-quote-page";
+import ManufacturerDashboardPage from "../../pages/manufacturer/manufacturer-menu.page";
+import ManufacturerQuotePage from "../../pages/manufacturer/mfg-quote.page";
 
 test.describe('test quoting', () => {
     test.use({ storageState: 'storage/auth.json' });
@@ -15,7 +15,7 @@ test.describe('test quoting', () => {
         await manufacturerQuotePage.waitForQuotesToLoad();
         await manufacturerQuotePage.findRows();
         await manufacturerQuotePage.publishQuote();
-        
+
 
     })
 })

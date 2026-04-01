@@ -1,4 +1,4 @@
-export default class ApAdminDashboardPage {
+export default class ApAdminMenu {
 
     constructor(page) {
         this.page = page;
@@ -7,20 +7,15 @@ export default class ApAdminDashboardPage {
         this.manufacturerOnboardingBtn = page.getByRole('button', { name: 'Manufacturer Onboarding' });
         this.hospitalOnboardingToggle = page.getByRole('button', { name: 'Hospital Onboarding' });
         this.hospitalOnboardingBtn = page.getByRole('button', { name: 'Hospital', exact: true });
+        this.hospitalMastersToggle = page.getByRole('button', { name: 'Hospital masters' });
+        this.hospitalItemMasterBtn = page.getByRole('button', { name: 'Hospital Item Masters' });
         this.affordplanMastersToggle = page.getByRole('button', { name: 'Affordplan Master' });
         this.manufacturerMastersToggle = page.locator('span').filter({ hasText: 'Manufacturer Masters' }).first()
         this.mfgItemMasterBtn = page.locator('span').filter({ hasText: 'Manufacturer Item' }).first()
         this.apItemMasterBtn = page.locator('span').filter({ hasText: 'Item Master' }).first();
         this.mappingMastersBtn = page.getByRole('button', { name: 'Mapping Masters' });
         this.exceptionHandlingBtn = page.getByRole('button', { name: 'Exception Handling' })
-        this.addNewButton = page.getByRole('button', { name: /add new/i });
-
-        /** Buttons */
-        this.saveBtn = page.getByRole("button", { name: "Save" });
-        this.confirmBtn = page.getByRole("button", { name: "Confirm" });
     }
-
-    /** -------------------- ACTION METHODS -------------------- **/
 
     async goToUserManagement() {
         await this.userManagementBtn.click();
@@ -35,32 +30,20 @@ export default class ApAdminDashboardPage {
         await this.hospitalOnboardingBtn.click();
     }
 
+    async goToHospitalItemMaster() {
+        await this.hospitalMastersToggle.click();
+        await this.hospitalItemMasterBtn.click();
+    }
 
     async goToApItemMaster() {
         await this.affordplanMastersToggle.click();
         await this.apItemMasterBtn.click();
     }
 
-
-    async goToMfgItemMaster() {
-        await this.manufacturerMastersToggle.waitFor({ state: "visible" });
-        await this.mfgItemMasterBtn.click();
-    }
-
-    async goToMappingMasters() {
-        await this.affordplanMastersToggle.click();
-        await this.mappingMastersBtn.click();
-    }
-
     async goToExceptionHandling() {
         await this.affordplanMastersToggle.click();
         await this.exceptionHandlingBtn.click();
     }
+    
 
-
-    async save() {
-        await this.saveBtn.click();
-        await this.confirmBtn.click();
-    }
 }
-
