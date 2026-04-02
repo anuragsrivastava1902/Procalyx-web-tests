@@ -33,6 +33,7 @@ test.describe('Affordplan User Management Tests', () => {
                 await apAdminUserManagementFormPage.selectGeographyDetails(user);
                 await apAdminUserManagementFormPage.selectConditionalDropdowns(user);
                 await apAdminUserManagementFormPage.clickSaveButton();
+                await apAdminUserManagementFormPage.verifyAlertMessage();
             });
         }
     }
