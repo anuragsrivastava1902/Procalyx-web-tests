@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import ApAdminUserManagementFormPage from '../../pages/affordplan/user-management/ap-admin-user-mgmt-form.page.js';
 import ApAdminUserManagementListPage from '../../pages/affordplan/user-management/ap-admin-user-mgmt-list.page.js';
-import { readCSV } from '../../utils/readCSV.js';
+import { readCSV } from '../../utils/data/readCSV.js';
 import ApAdminMenu from '../../pages/affordplan/ap-admin-menu.page.js';
 
 let users = [];

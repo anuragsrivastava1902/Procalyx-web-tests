@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { readCSV } from '../../utils/readCSV';
+import { readCSV } from '../../utils/data/readCSV';
 import ApAdminMenu from '../../pages/affordplan/ap-admin-menu.page.js';
 import HospitalOnboardingFormPage from '../../pages/affordplan/onboarding/hospital-onboarding-form.page.js';
 import HospitalOnboardingListPage from '../../pages/affordplan/onboarding/hospital-onboarding-list.page.js';
 import ApHkamMenu from '../../pages/affordplan/ap-hkam-menu.page';
-import { generateEmail, generateMobileNumber } from '../../utils/generateTestData';
+import { generateEmail, generateMobileNumber } from '../../utils/data/generateTestData';
 
 let hospitals = [];
 try {

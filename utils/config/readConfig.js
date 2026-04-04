@@ -14,13 +14,13 @@ export function readConfig(role, environment) {
     }
 
     if (!config.apiURL[environment]) {
-      throw new Error(`❌ Environment "${environment}" not found in apiURL config`);
+      throw new Error(` Environment "${environment}" not found in apiURL config`);
     }
 
     const user = config.users[role];
 
     if (!user) {
-      throw new Error(`❌ Role "${role}" not found in config`);
+      throw new Error(` Role "${role}" not found in config`);
     }
     
     return {

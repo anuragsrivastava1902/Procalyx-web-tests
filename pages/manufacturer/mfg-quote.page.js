@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
-import clearAndType from "../../utils/helpers/clearAndType";
-import getFutureDateISO from "../../utils/helpers/getFutureDateISO";
+import clearAndType from "../../utils/page-helpers/clearAndType.js";
+import getFutureDateISO from "../../utils/page-helpers/getFutureDateISO.js";
 
 export default class ManufacturerQuotePage {
     constructor(page) {
