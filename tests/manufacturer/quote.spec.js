@@ -13,8 +13,11 @@ test.describe('test quoting', () => {
         await manufacturerDashboardPage.goToQuoteScreen();
         // await manufacturerQuotePage.waitForPageToLoadComplete()
         await manufacturerQuotePage.waitForQuotesToLoad();
-        await manufacturerQuotePage.searchInColumn("MFS", "Saroglitazar|Tablets|4MG");
-        await manufacturerQuotePage.searchInColumn("Hospital Unit Name", "Delta");
+        // await manufacturerQuotePage.table.searchInColumn("MFS", "Saroglitazar|Tablets|4MG");
+        await manufacturerQuotePage.table.sortAscendingByColumn("Hospital Unit Name");
+        await page.pause()
+        await manufacturerQuotePage.table.searchInColumn("Hospital Unit Name", "Aksha");
+        await manufacturerQuotePage.table.searchInColumn("AP Therapy Name", "Nervous System");
         await page.waitForTimeout(5000)
         const quotableCount = await manufacturerQuotePage.getQuotableRows();
         await manufacturerQuotePage.fillQuoteDetailsAndSelectRows('100', '80');
