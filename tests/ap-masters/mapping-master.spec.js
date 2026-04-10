@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { readCSV } from '../../utils/readCSV.js';
+import { readCSV } from '../../utils/data/readCSV.js';
 import ApAdminDashboardPage from '../../pages/affordplan/dashboard/ap-admin-dashboard.page.js';
 import MappingMasterListPage from '../../pages/affordplan/affordplan-masters/mapping-masters-list.page.js';
 import MappingMasterFormPage from '../../pages/affordplan/affordplan-masters/mapping-masters-form.page.js';

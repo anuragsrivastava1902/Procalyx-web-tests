@@ -26,6 +26,7 @@ export default class ApAdminUserManagementFormPage {
         this.divisionSelect = page.locator('select:has(option:has-text("Select division"))').first();
         this.therapyAreasDropdown = page.locator('span:has-text("Select therapy areas")');
 
+        this.alertMessage = page.locator('div.MuiAlert-message')
         this.saveButton = page.getByRole('button', { name: 'Create User' });
 
 
@@ -94,8 +95,15 @@ export default class ApAdminUserManagementFormPage {
         ]);
 
         const responseBody = await response.json();
-        console.log(`API response code:`, response.status);
-        expect(responseBody.success, "check if the user is created or not").toBeTruthy();
+        console.log(`API response status:`, responseBody.success);
+        console.log(`API response message:`, responseBody.error.message);
+        expect.soft(responseBody.success, "check if the user is created or not").toBeTruthy();
+    }
+
+    async verifyAlertMessage() {
+        await expect(this.alertMessage).toBeVisible();
+        const alertMessage = await this.alertMessage.textContent();
+        console.log(`Alert message:`, alertMessage);
     }
 
 

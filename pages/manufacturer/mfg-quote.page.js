@@ -1,54 +1,88 @@
 import { expect } from "@playwright/test";
+import clearAndType from "../../utils/page-helpers/clearAndType.js";
+import getFutureDateISO from "../../utils/page-helpers/getFutureDateISO.js";
+import TableComponent from "../../utils/components/table.component.js";
 
 export default class ManufacturerQuotePage {
     constructor(page) {
         this.page = page;
+        this.table = new TableComponent(page);
         this.disclaimerText = page.getByText('Disclaimer').nth(1);
-        this.rows = page.locator('table tbody tr');
+        this.columnHeaders = page.locator('thead tr').nth(0).locator('th');
+        this.searchHeaders = page.locator('thead tr').nth(1).locator('th').locator('input');
+        this.itemRows = page.locator('table tbody tr');
         this.publishBtn = page.getByRole('button', { name: 'Publish' })
         this.confirmPublishBtn = page.locator('button').filter({ hasText: 'Publish' }).last()
     }
 
-    async findRows() {
-        const rowCount = await this.rows.count();
-        console.log(rowCount);
-        const headers = this.page.locator('table thead th');
-        const headerCount = await headers.count();
-        console.log(headerCount)
-        let manufacturerColIndex = -1;
-        for (let i = 0; i < headerCount; i++) {
-            const headerText = await headers.nth(i).textContent();
-            if (headerText?.includes('Manufacturer Item Name')) {
-                manufacturerColIndex = i;
+    async getQuotableRows() {
+        const rowCount = await this.itemRows.count();
+        const manufacturerColIndex = await this.table.getColumnIndex('Manufacturer Item Name');
+        let quotableCount = 0;
+        for (let i = 0; i < rowCount; i++) {
+            const row = this.itemRows.nth(i);
+            const manufacturerCell = row.locator('td').nth(manufacturerColIndex);
+            const text = (await manufacturerCell.textContent())?.trim();
+            if (text && text !== '-') {
+                console.log(`Row ${i + 1}: "${text}" → Quotable`);
+                await expect(manufacturerCell).toBeVisible();
+                quotableCount++;
+            } else {
+                console.log(`Row ${i + 1}: Not Quotable`);
+            }
+        }
+        console.log(`Total quotable rows: ${quotableCount}`);
+        return quotableCount;
+    }
+
+    async fillQuoteDetailsAndSelectRows(mrpValue = '100', costValue = '80') {
+        const rowCount = await this.itemRows.count();
+
+        const manufacturerIndex = await this.table.getColumnIndex('Manufacturer Item Name');
+        const mrpIndex = await this.table.getColumnIndex('MRP/Pack');
+        const costIndex = await this.table.getColumnIndex('Cost WO GST/Pack');
+        const dateIndex = await this.table.getColumnIndex('Quote Validity Date')
+        const futureDate = await getFutureDateISO(7);
+
+        let processedCount = 0;
+        for (let i = 0; i < rowCount; i++) {
+            const row = this.itemRows.nth(i);
+            const manufacturerText = (await row.locator('td').nth(manufacturerIndex).textContent())?.trim();
+
+            // Skip non-quotable rows
+            if (!manufacturerText || manufacturerText === '-') {
+                console.log(`Row ${i + 1}: Not quotable`);
+                continue;
+            }
+            const mrpInput = row.locator('td').nth(mrpIndex).locator('input');
+            await clearAndType(mrpInput, mrpValue);
+            const costInput = row.locator('td').nth(costIndex).locator('input');
+            await clearAndType(costInput, costValue);
+            const dateInput = row.locator('td').nth(dateIndex).locator('input[type="date"]');
+            await dateInput.fill(futureDate);
+            await this.page.locator('body').click(); //click outside to trigger blur event and validation.
+            if (Number(await mrpInput.inputValue()) > 0 && Number(await costInput.inputValue()) > 0) {
+                const checkbox = row.locator('input[type="checkbox"]');
+                await expect(checkbox).toBeEnabled({ timeout: 10000 });
+                await checkbox.check();
+                processedCount++;
+            } else {
+                console.log(`Row ${i + 1}: Invalid values, skipping selection`);
+            }
+            if (processedCount == 13) {
                 break;
             }
         }
-        console.log("index is: ", manufacturerColIndex)
-
-        for (let i = 0; i < rowCount; i++) {
-            const row = this.rows.nth(i);
-            const manufacturerCell = row.locator('td').nth(manufacturerColIndex);
-            const text = await manufacturerCell.textContent();
-            if (text && text.trim().length > 0) {
-                console.log(`Row ${i} with item name: ${text} is QUOTABLE`);
-                // assertion if needed
-                await expect(manufacturerCell).toBeVisible();
-                await row.locator('td').nth(0).click();
-            } else {
-                console.log(`Row ${i} is NOT QUOTABLE`);
-                // assertion if needed
-                await expect(manufacturerCell).toBeEmpty();
-            }
-        }
+        return processedCount;
     }
 
-    async publishQuote(){
+
+
+    async publishQuote() {
         await this.publishBtn.scrollIntoViewIfNeeded();
         await this.publishBtn.click();
         await this.confirmPublishBtn.click();
     }
-
-
 
     async waitForQuotesToLoad() {
         await expect(this.publishBtn).toBeVisible({ timeout: 10000 });

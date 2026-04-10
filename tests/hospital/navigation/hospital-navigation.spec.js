@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
-import HospitalDashboardPage from "../../pages/hospital/dashboard/hospital-dashboard.page";
-import HospitalQuoteMgmtPage from "../../pages/hospital/quote-management/hospital-quote-list.page";
-import HospitalMenu from "../../pages/hospital/hospital-menu.page";
+import HospitalQuoteMgmtPage from "../../../pages/hospital/quote-management/hospital-quote-list.page";
+import HospitalMenu from "../../../pages/hospital/hospital-menu.page";
 
 test.describe('testing hospital side', () => {
     test.use({ storageState: 'storage/auth.h_superadmin.json' });

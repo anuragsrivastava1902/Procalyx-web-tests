@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import ApAdminMenu from '../../pages/affordplan/ap-admin-menu.page';
 import ManufacturerOnboardingFormPage from '../../pages/affordplan/onboarding/manufacturer-onboarding-form.page';
 import ManufacturerOnboardingListPage from '../../pages/affordplan/onboarding/manufacturer-onboarding-list.page';
-import { readCSV } from '../../utils/readCSV';
+import { readCSV } from '../../utils/data/readCSV';
 
 let mfgs = [];
 try {

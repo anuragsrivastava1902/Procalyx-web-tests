@@ -6,7 +6,7 @@ export default class HospitalQuoteDetailPage {
         this.annualConsumptionText = page.getByText(/Annual consumption/i);
         this.weightedAverageText = page.getByText(/Weighted average cost per unit/i);
         // This targets the specific table handling Quotations Received.
-        this.quotationsTable = page.locator('table').nth(1);
+        this.quotatedBrandsTable = page.locator('table').nth(1);
     }
 
     async parseCurrency(str) {
@@ -32,7 +32,7 @@ export default class HospitalQuoteDetailPage {
         const weightedAvgCost = await this.parseCurrency(parts[0]);
         const weightedAvgMargin = await this.parseCurrency(parts[1]);
 
-        const row = this.quotationsTable.locator('tbody tr', { hasText: brandName });
+        const row = this.quotatedBrandsTable.locator('tbody tr', { hasText: brandName });
         await row.waitFor({state: 'visible'});
 
         const mrpPerUnitRaw = await row.locator('td').nth(4).textContent(); 
@@ -57,5 +57,23 @@ export default class HospitalQuoteDetailPage {
 
         expect(Math.abs(expectedCostImpactRaw - annualCostImpactUi)).toBeLessThan(15000); 
         expect(Math.abs(expectedMarginImpactRaw - annualMarginImpactUi)).toBeLessThan(15000);
+    }
+
+    async selectAndApproveBrand(brandName) {
+        const row = this.quotatedBrandsTable.locator('tbody tr', { hasText: brandName });
+        await row.waitFor({state: 'visible'});
+        await row.getByRole('checkbox').check();
+        await this.page.getByRole('button', { name: 'Approve' }).click();
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForTimeout(1000);
+    }
+
+    async selectAndRejectBrand(brandName) {
+        const row = this.quotatedBrandsTable.locator('tbody tr', { hasText: brandName });
+        await row.waitFor({state: 'visible'});
+        await row.getByRole('checkbox').check();
+        await this.page.getByRole('button', { name: 'Reject' }).click();
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForTimeout(1000);
     }
 }

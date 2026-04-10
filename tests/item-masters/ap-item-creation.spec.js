@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { readCSV } from '../../utils/readCSV.js';
+import { readCSV } from '../../utils/data/readCSV.js';
 import ApAdminMenu from '../../pages/affordplan/ap-admin-menu.page.js';
 import ApItemMasterListPage from '../../pages/affordplan/affordplan-masters/ap-item-master-list.page.js';
 import ApItemMasterFormPage from '../../pages/affordplan/affordplan-masters/ap-item-master-form.page.js';
 // import data from '../../test-data/dropdownMaster.json';
-// import getDropdownListFromApi from '../../utils/getDropdownListFromApi.js';
+// import getDropdownListFromApi from '../../utils/api/getDropdownListFromApi.js';
 
 let apItems = [];
 try {

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "playwright test",
+    "test:local": "MODE=local playwright test",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
     "test:auth": "playwright test tests/auth/",
@@ -39,6 +40,7 @@
   },
   "dependencies": {
     "axios": "^1.14.0",
+    "dotenv": "^17.4.0",
     "fs": "^0.0.1-security",
     "papaparse": "^5.5.3"
   }
